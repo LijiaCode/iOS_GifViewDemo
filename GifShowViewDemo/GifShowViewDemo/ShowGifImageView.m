@@ -9,6 +9,7 @@
 #import "ShowGifImageView.h"
 #import <CoreGraphics/CoreGraphics.h>
 #import <ImageIO/ImageIO.h>
+#import "GifImageGenerater.h"
 
 @interface ShowGifImageView()
 @property(nonatomic, strong)NSData* imageData;
@@ -52,12 +53,11 @@
             if (pngImage)
             {
                 [images addObject:(__bridge id)pngImage];
-                //CGImageRelease(pngImage);
+                CGImageRelease(pngImage);
             }
         }
         CFRelease(src);
     }
-    //
     
     CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"contents"];
     CGFloat currentTime = 0;
