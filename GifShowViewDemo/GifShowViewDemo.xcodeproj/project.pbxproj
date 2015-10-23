@@ -11,11 +11,11 @@
 		2A1B10871BD8FC5C009B9EB9 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A1B10861BD8FC5C009B9EB9 /* MobileCoreServices.framework */; };
 		2A1B108A1BD905AB009B9EB9 /* VideoToGIFConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A1B10891BD905AB009B9EB9 /* VideoToGIFConverter.m */; };
 		2A1B108C1BD9082D009B9EB9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A1B108B1BD9082D009B9EB9 /* AVFoundation.framework */; };
-		2A1B108E1BD9105B009B9EB9 /* test.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 2A1B108D1BD9105B009B9EB9 /* test.m4v */; };
 		2A1E4ACA1BD7D6FE00342877 /* ShowGifImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A1E4AC91BD7D6FE00342877 /* ShowGifImageView.m */; };
 		2A1E4ACC1BD7DA2800342877 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A1E4ACB1BD7DA2800342877 /* CoreGraphics.framework */; };
 		2A1E4ACE1BD7DA7D00342877 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A1E4ACD1BD7DA7D00342877 /* ImageIO.framework */; };
-		2A1E4AD01BD7DD7E00342877 /* test.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2A1E4ACF1BD7DD7E00342877 /* test.gif */; };
+		2AB4B1B51BDA82B000885222 /* ShowGifImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB4B1B41BDA82B000885222 /* ShowGifImageViewController.m */; };
+		2AB4B1B91BDA86EF00885222 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AB4B1B81BDA86EF00885222 /* Photos.framework */; };
 		2AFEB1431BD7715B00D68A33 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AFEB1421BD7715B00D68A33 /* main.m */; };
 		2AFEB1461BD7715B00D68A33 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AFEB1451BD7715B00D68A33 /* AppDelegate.m */; };
 		2AFEB1491BD7715B00D68A33 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AFEB1481BD7715B00D68A33 /* ViewController.m */; };
@@ -31,12 +31,15 @@
 		2A1B10881BD905AB009B9EB9 /* VideoToGIFConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoToGIFConverter.h; sourceTree = "<group>"; };
 		2A1B10891BD905AB009B9EB9 /* VideoToGIFConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoToGIFConverter.m; sourceTree = "<group>"; };
 		2A1B108B1BD9082D009B9EB9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		2A1B108D1BD9105B009B9EB9 /* test.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.m4v; sourceTree = "<group>"; };
 		2A1E4AC81BD7D6FE00342877 /* ShowGifImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowGifImageView.h; sourceTree = "<group>"; };
 		2A1E4AC91BD7D6FE00342877 /* ShowGifImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowGifImageView.m; sourceTree = "<group>"; };
 		2A1E4ACB1BD7DA2800342877 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2A1E4ACD1BD7DA7D00342877 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		2A1E4ACF1BD7DD7E00342877 /* test.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = test.gif; sourceTree = "<group>"; };
+		2AB4B1AF1BDA711100885222 /* Defines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Defines.h; sourceTree = "<group>"; };
+		2AB4B1B21BDA733A00885222 /* GifShowView_pch.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifShowView_pch.pch; sourceTree = "<group>"; };
+		2AB4B1B31BDA82B000885222 /* ShowGifImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowGifImageViewController.h; sourceTree = "<group>"; };
+		2AB4B1B41BDA82B000885222 /* ShowGifImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowGifImageViewController.m; sourceTree = "<group>"; };
+		2AB4B1B81BDA86EF00885222 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		2AFEB13E1BD7715B00D68A33 /* GifShowViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GifShowViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AFEB1421BD7715B00D68A33 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2AFEB1441BD7715B00D68A33 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -54,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2AB4B1B91BDA86EF00885222 /* Photos.framework in Frameworks */,
 				2A1B108C1BD9082D009B9EB9 /* AVFoundation.framework in Frameworks */,
 				2A1B10871BD8FC5C009B9EB9 /* MobileCoreServices.framework in Frameworks */,
 				2A1E4ACE1BD7DA7D00342877 /* ImageIO.framework in Frameworks */,
@@ -64,9 +68,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2AB4B1AE1BDA688B00885222 /* GifBulider */ = {
+			isa = PBXGroup;
+			children = (
+				2A1B10831BD8F837009B9EB9 /* GifImageGenerater.h */,
+				2A1B10841BD8F837009B9EB9 /* GifImageGenerater.m */,
+				2A1B10881BD905AB009B9EB9 /* VideoToGIFConverter.h */,
+				2A1B10891BD905AB009B9EB9 /* VideoToGIFConverter.m */,
+			);
+			name = GifBulider;
+			sourceTree = "<group>";
+		};
 		2AFEB1351BD7715A00D68A33 = {
 			isa = PBXGroup;
 			children = (
+				2AB4B1B81BDA86EF00885222 /* Photos.framework */,
 				2AFEB1401BD7715B00D68A33 /* GifShowViewDemo */,
 				2AFEB13F1BD7715B00D68A33 /* Products */,
 			);
@@ -83,25 +99,26 @@
 		2AFEB1401BD7715B00D68A33 /* GifShowViewDemo */ = {
 			isa = PBXGroup;
 			children = (
+				2AB4B1AE1BDA688B00885222 /* GifBulider */,
 				2A1E4AC81BD7D6FE00342877 /* ShowGifImageView.h */,
 				2A1E4AC91BD7D6FE00342877 /* ShowGifImageView.m */,
-				2A1B10831BD8F837009B9EB9 /* GifImageGenerater.h */,
-				2A1B10841BD8F837009B9EB9 /* GifImageGenerater.m */,
-				2A1B10881BD905AB009B9EB9 /* VideoToGIFConverter.h */,
-				2A1B10891BD905AB009B9EB9 /* VideoToGIFConverter.m */,
+				2AB4B1B31BDA82B000885222 /* ShowGifImageViewController.h */,
+				2AB4B1B41BDA82B000885222 /* ShowGifImageViewController.m */,
 				2AFEB1441BD7715B00D68A33 /* AppDelegate.h */,
 				2AFEB1451BD7715B00D68A33 /* AppDelegate.m */,
 				2AFEB1471BD7715B00D68A33 /* ViewController.h */,
 				2AFEB1481BD7715B00D68A33 /* ViewController.m */,
+				2AB4B1B21BDA733A00885222 /* GifShowView_pch.pch */,
+				2AB4B1AF1BDA711100885222 /* Defines.h */,
 				2AFEB14A1BD7715B00D68A33 /* Main.storyboard */,
 				2AFEB14D1BD7715B00D68A33 /* Assets.xcassets */,
 				2AFEB14F1BD7715B00D68A33 /* LaunchScreen.storyboard */,
 				2AFEB1521BD7715B00D68A33 /* Info.plist */,
-				2AFEB1411BD7715B00D68A33 /* Supporting Files */,
 				2A1B108B1BD9082D009B9EB9 /* AVFoundation.framework */,
 				2A1B10861BD8FC5C009B9EB9 /* MobileCoreServices.framework */,
 				2A1E4ACD1BD7DA7D00342877 /* ImageIO.framework */,
 				2A1E4ACB1BD7DA2800342877 /* CoreGraphics.framework */,
+				2AFEB1411BD7715B00D68A33 /* Supporting Files */,
 			);
 			path = GifShowViewDemo;
 			sourceTree = "<group>";
@@ -109,8 +126,6 @@
 		2AFEB1411BD7715B00D68A33 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				2A1B108D1BD9105B009B9EB9 /* test.m4v */,
-				2A1E4ACF1BD7DD7E00342877 /* test.gif */,
 				2AFEB1421BD7715B00D68A33 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -173,8 +188,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A1B108E1BD9105B009B9EB9 /* test.m4v in Resources */,
-				2A1E4AD01BD7DD7E00342877 /* test.gif in Resources */,
 				2AFEB1511BD7715B00D68A33 /* LaunchScreen.storyboard in Resources */,
 				2AFEB14E1BD7715B00D68A33 /* Assets.xcassets in Resources */,
 				2AFEB14C1BD7715B00D68A33 /* Main.storyboard in Resources */,
@@ -193,6 +206,7 @@
 				2AFEB1461BD7715B00D68A33 /* AppDelegate.m in Sources */,
 				2A1E4ACA1BD7D6FE00342877 /* ShowGifImageView.m in Sources */,
 				2AFEB1431BD7715B00D68A33 /* main.m in Sources */,
+				2AB4B1B51BDA82B000885222 /* ShowGifImageViewController.m in Sources */,
 				2A1B10851BD8F837009B9EB9 /* GifImageGenerater.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,6 +319,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/GifShowViewDemo/GifShowView_pch.pch";
 				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = NO;
 				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = NO;
 				INFOPLIST_FILE = GifShowViewDemo/Info.plist;
@@ -318,6 +334,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)GifShowView_pch.pch";
 				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = NO;
 				INFOPLIST_FILE = GifShowViewDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -6,9 +6,8 @@
 //  Copyright © 2015年 LiJia. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
 
 @end

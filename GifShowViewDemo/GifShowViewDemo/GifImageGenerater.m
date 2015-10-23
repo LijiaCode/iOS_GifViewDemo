@@ -8,7 +8,6 @@
 
 #import "gifImageGenerater.h"
 #import <ImageIO/ImageIO.h>
-#import <UIKit/UIKit.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
 @implementation GifImageGenerater

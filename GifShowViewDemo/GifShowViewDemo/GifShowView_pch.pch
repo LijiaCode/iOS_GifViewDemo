@@ -1,0 +1,18 @@
+//
+//  GifShowView_pch.pch
+//  GifShowViewDemo
+//
+//  Created by 李佳 on 15/10/23.
+//  Copyright © 2015年 LiJia. All rights reserved.
+//
+
+#ifndef GifShowView_pch_pch
+#define GifShowView_pch_pch
+
+#import <UIKit/UIKit.h>
+
+#import "Defines.h"
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* GifShowView_pch_pch */
