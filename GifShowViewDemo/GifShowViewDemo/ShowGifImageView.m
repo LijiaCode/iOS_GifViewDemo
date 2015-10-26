@@ -22,14 +22,16 @@
     if (self = [super initWithFrame:frame])
     {
         self.imageData = imageData;
-        
-        UIButton* btn = [[UIButton alloc] init];
-        btn.frame = CGRectMake(100, 100, 40, 20);
-        btn.backgroundColor = [UIColor redColor];
-        [btn addTarget:self action:@selector(addGifKeyframeAnimation) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:btn];
     }
     return self;
+}
+
+
+- (void)didMoveToSuperview
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self addGifKeyframeAnimation];
+    });
 }
 
 - (void)addGifKeyframeAnimation
@@ -75,7 +77,7 @@
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
     animation.duration = totleTime;
     animation.delegate = self;
-    animation.repeatCount = 2;
+    animation.repeatCount = INT_MAX;
     
     [self.layer addAnimation:animation forKey:@"gifAnimation"];
 }

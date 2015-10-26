@@ -71,7 +71,7 @@
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate = self;
     picker.allowsEditing = YES;
-    [self presentViewController:picker animated:YES completion:^(){}];
+    [self.navigationController presentViewController: picker animated:YES completion:^(){}];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
@@ -105,7 +105,7 @@
         ShowGifImageViewController* showGifViewCrl = [[ShowGifImageViewController alloc] init];
         showGifViewCrl.imageData = gifImageData;
         [picker dismissViewControllerAnimated:YES completion:^(){}];
-        [self presentViewController:showGifViewCrl animated:YES completion:^(){}];
+        [self.navigationController pushViewController:showGifViewCrl animated:YES];
     }
     else
     {
@@ -114,7 +114,7 @@
         [alertCrl addAction:cancelAction];
         [picker dismissViewControllerAnimated:YES completion:^(){}];
         
-        [self presentViewController:alertCrl animated:YES completion:^(){}];
+        [self.navigationController presentViewController:alertCrl animated:YES completion:^(){}];
     }
     
 }

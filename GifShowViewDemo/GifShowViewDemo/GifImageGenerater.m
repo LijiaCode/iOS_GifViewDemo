@@ -74,4 +74,61 @@
     return imageData;
 }
 
+- (NSDictionary*)getGifImageInfoWith: (NSData*)imageData
+{
+    if (!imageData)
+        return nil;
+    CGImageSourceRef src = CGImageSourceCreateWithData((CFDataRef)imageData, NULL);
+    
+    
+    if (src)
+    {
+        NSDictionary *gifProperties = (__bridge NSDictionary *)CGImageSourceCopyProperties(src, NULL);
+        if(gifProperties)
+        {
+            //由GfiImage的基本数据获取gif数据
+            NSDictionary *gifDictionary = [gifProperties objectForKey:(NSString*)kCGImagePropertyGIFDictionary];
+            //播放次数
+            
+            NSUInteger loopCount = [[gifDictionary objectForKey:(NSString*)kCGImagePropertyGIFLoopCount] integerValue];
+            //获取gif的帧数
+            NSMutableArray* images = [[NSMutableArray alloc] init];
+            NSMutableArray* delayTimes = [[NSMutableArray alloc] init];
+            BOOL hasColorMap =  [[gifDictionary objectForKey:(NSString*)kCGImagePropertyGIFHasGlobalColorMap] boolValue];
+            NSString* colorMap = [gifDictionary objectForKey:(NSString*)kCGImagePropertyGIFImageColorMap];
+            CGFloat width = [[gifProperties valueForKey:(NSString*)kCGImagePropertyPixelWidth] floatValue];
+            CGFloat height = [[gifProperties valueForKey:(NSString*)kCGImagePropertyPixelHeight] floatValue];
+            
+            NSUInteger frameCount = CGImageSourceGetCount(src);
+            
+            for (NSUInteger i = 0; i < frameCount; i++)
+            {
+                CGImageRef img = CGImageSourceCreateImageAtIndex(src, (size_t) i, NULL);
+                if (img)
+                {
+                    UIImage *frameImage = [UIImage imageWithCGImage:img];
+                    [images addObject:frameImage];
+                   
+                    NSDictionary *frameProperties = (__bridge NSDictionary *) CGImageSourceCopyPropertiesAtIndex(src, (size_t) i, NULL);
+                    if (frameProperties)
+                    {
+                        NSDictionary *frameDictionary = [frameProperties objectForKey:(NSString*)kCGImagePropertyGIFDictionary];
+                        [delayTimes addObject:[frameDictionary objectForKey:(NSString*)kCGImagePropertyGIFDelayTime]];
+                    }
+                    CGImageRelease(img);
+                }
+            }
+            CFRelease(src);
+            
+            return @{@"images":images, @"delayTimes":delayTimes,
+                     @"loopCount":[NSNumber numberWithInteger: loopCount],
+                     @"hasColorMap":delayTimes,
+                     @"hasColorMap":[NSNumber numberWithBool:hasColorMap],
+                     @"colorMap":colorMap, @"width":[NSNumber numberWithFloat:width],
+                     @"height":[NSNumber numberWithFloat:height]};
+        }
+    }
+    return nil;
+}
+
 @end
