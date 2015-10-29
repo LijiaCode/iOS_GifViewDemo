@@ -14,4 +14,6 @@
 
 - (NSDate* _Nullable)generateGIFImageWithInfo: (NSDictionary* _Nonnull)imageInfo;
 
+- (NSDictionary* _Nullable)getGifImageInfoWith: (NSData* _Nullable)imageData;
+
 @end

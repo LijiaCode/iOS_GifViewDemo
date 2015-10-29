@@ -13,6 +13,9 @@ static const CGFloat gifOperationBtnWidth = 90.f;
 static const CGFloat gifOperationBtnHeight = 40.f;
 static const CGFloat gifOperationBtnMargin = 30.f;
 
+static const CGFloat gifEditCellWidth = 200.f;
+static const CGFloat sectionMargin = 10.f;
+
 
 #define choiceOperationTag 0
 #define createOperationTag 1
@@ -21,5 +24,10 @@ static const CGFloat gifOperationBtnMargin = 30.f;
 static const NSString* choiceImageTitle = @"选择图片";
 static const NSString* createGifImageTitle = @"创建GIF图";
 static const NSString* vedioCvtGifTitle = @"视频转GIF";
+
+NSString* getCurGifFileName();
+NSString* getCurrentTimeString();
+NSString* getTmpGifPath();
+
 
 #endif /* Defines_h */

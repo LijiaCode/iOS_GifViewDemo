@@ -41,61 +41,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "GifShowViewDemo/ShowGifImageView.m"
-            timestampString = "467563842.439486"
+            filePath = "GifShowViewDemo/GifEditCollectionViewController.m"
+            timestampString = "467823996.249175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "-didMoveToSuperview"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__38-[ShowGifImageView didMoveToSuperview]_block_invoke"
-                  moduleName = "GifShowViewDemo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lijia/Documents/GitHub/iOS/iOS_GifViewDemo/GifShowViewDemo/GifShowViewDemo/ShowGifImageView.m"
-                  timestampString = "467565654.525871"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "34"
-                  endingLineNumber = "34"
-                  offsetFromSymbolStart = "38">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__copy_helper_block_"
-                  moduleName = "GifShowViewDemo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lijia/Documents/GitHub/iOS/iOS_GifViewDemo/GifShowViewDemo/GifShowViewDemo/ShowGifImageView.m"
-                  timestampString = "467565654.526302"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "16">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GifShowViewDemo/ViewController.m"
-            timestampString = "467564119.978234"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
-            landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
+            landmarkName = "-dealloc"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -105,13 +57,45 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "GifShowViewDemo/ViewController.m"
-            timestampString = "467564258.248224"
+            filePath = "GifShowViewDemo/GifEditCollectionViewController.m"
+            timestampString = "467823996.249175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
-            landmarkName = "-choiceGIFImageTarget:"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "-previewGifImage:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GifShowViewDemo/GifEditCollectionViewController.m"
+            timestampString = "467823996.249175"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
+            landmarkName = "-previewGifImage:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GifShowViewDemo/GifImageGenerater.m"
+            timestampString = "467824257.926862"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "-generateGIFImageWithInfo:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

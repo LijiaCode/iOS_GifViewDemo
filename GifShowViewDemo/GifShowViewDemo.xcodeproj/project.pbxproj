@@ -14,10 +14,12 @@
 		2A1E4ACA1BD7D6FE00342877 /* ShowGifImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A1E4AC91BD7D6FE00342877 /* ShowGifImageView.m */; };
 		2A1E4ACC1BD7DA2800342877 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A1E4ACB1BD7DA2800342877 /* CoreGraphics.framework */; };
 		2A1E4ACE1BD7DA7D00342877 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A1E4ACD1BD7DA7D00342877 /* ImageIO.framework */; };
-		2A3B158E1BDE79EB00020A47 /* GifEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3B158D1BDE79EB00020A47 /* GifEditView.m */; };
-		2A3B15921BDE7A1400020A47 /* GifEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A3B15911BDE7A1400020A47 /* GifEditViewController.m */; };
 		2AB4B1B51BDA82B000885222 /* ShowGifImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB4B1B41BDA82B000885222 /* ShowGifImageViewController.m */; };
 		2AB4B1B91BDA86EF00885222 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AB4B1B81BDA86EF00885222 /* Photos.framework */; };
+		2AF9F3151BDFB64E00AAAFB3 /* GifEditCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF9F3141BDFB64E00AAAFB3 /* GifEditCollectionViewController.m */; };
+		2AF9F3181BDFB79B00AAAFB3 /* GifEditCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF9F3171BDFB79B00AAAFB3 /* GifEditCollectionViewFlowLayout.m */; };
+		2AF9F3421BDFB7D200AAAFB3 /* GifEditCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF9F3411BDFB7D200AAAFB3 /* GifEditCollectionViewCell.m */; };
+		2AFAA71E1BE2689400141D54 /* Defines.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AFAA71D1BE2689400141D54 /* Defines.m */; };
 		2AFEB1431BD7715B00D68A33 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AFEB1421BD7715B00D68A33 /* main.m */; };
 		2AFEB1461BD7715B00D68A33 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AFEB1451BD7715B00D68A33 /* AppDelegate.m */; };
 		2AFEB1491BD7715B00D68A33 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AFEB1481BD7715B00D68A33 /* ViewController.m */; };
@@ -37,15 +39,18 @@
 		2A1E4AC91BD7D6FE00342877 /* ShowGifImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowGifImageView.m; sourceTree = "<group>"; };
 		2A1E4ACB1BD7DA2800342877 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2A1E4ACD1BD7DA7D00342877 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		2A3B158C1BDE79EB00020A47 /* GifEditView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifEditView.h; sourceTree = "<group>"; };
-		2A3B158D1BDE79EB00020A47 /* GifEditView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GifEditView.m; sourceTree = "<group>"; };
-		2A3B15901BDE7A1400020A47 /* GifEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifEditViewController.h; sourceTree = "<group>"; };
-		2A3B15911BDE7A1400020A47 /* GifEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GifEditViewController.m; sourceTree = "<group>"; };
 		2AB4B1AF1BDA711100885222 /* Defines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Defines.h; sourceTree = "<group>"; };
 		2AB4B1B21BDA733A00885222 /* GifShowView_pch.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifShowView_pch.pch; sourceTree = "<group>"; };
 		2AB4B1B31BDA82B000885222 /* ShowGifImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowGifImageViewController.h; sourceTree = "<group>"; };
 		2AB4B1B41BDA82B000885222 /* ShowGifImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowGifImageViewController.m; sourceTree = "<group>"; };
 		2AB4B1B81BDA86EF00885222 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		2AF9F3131BDFB64E00AAAFB3 /* GifEditCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifEditCollectionViewController.h; sourceTree = "<group>"; };
+		2AF9F3141BDFB64E00AAAFB3 /* GifEditCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GifEditCollectionViewController.m; sourceTree = "<group>"; };
+		2AF9F3161BDFB79B00AAAFB3 /* GifEditCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifEditCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		2AF9F3171BDFB79B00AAAFB3 /* GifEditCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GifEditCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		2AF9F3401BDFB7D200AAAFB3 /* GifEditCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifEditCollectionViewCell.h; sourceTree = "<group>"; };
+		2AF9F3411BDFB7D200AAAFB3 /* GifEditCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GifEditCollectionViewCell.m; sourceTree = "<group>"; };
+		2AFAA71D1BE2689400141D54 /* Defines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Defines.m; sourceTree = "<group>"; };
 		2AFEB13E1BD7715B00D68A33 /* GifShowViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GifShowViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AFEB1421BD7715B00D68A33 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2AFEB1441BD7715B00D68A33 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -88,10 +93,12 @@
 		2A3B158B1BDE79C700020A47 /* GifEdit */ = {
 			isa = PBXGroup;
 			children = (
-				2A3B158C1BDE79EB00020A47 /* GifEditView.h */,
-				2A3B158D1BDE79EB00020A47 /* GifEditView.m */,
-				2A3B15901BDE7A1400020A47 /* GifEditViewController.h */,
-				2A3B15911BDE7A1400020A47 /* GifEditViewController.m */,
+				2AF9F3131BDFB64E00AAAFB3 /* GifEditCollectionViewController.h */,
+				2AF9F3141BDFB64E00AAAFB3 /* GifEditCollectionViewController.m */,
+				2AF9F3161BDFB79B00AAAFB3 /* GifEditCollectionViewFlowLayout.h */,
+				2AF9F3171BDFB79B00AAAFB3 /* GifEditCollectionViewFlowLayout.m */,
+				2AF9F3401BDFB7D200AAAFB3 /* GifEditCollectionViewCell.h */,
+				2AF9F3411BDFB7D200AAAFB3 /* GifEditCollectionViewCell.m */,
 			);
 			name = GifEdit;
 			sourceTree = "<group>";
@@ -136,6 +143,7 @@
 				2AFEB1481BD7715B00D68A33 /* ViewController.m */,
 				2AB4B1B21BDA733A00885222 /* GifShowView_pch.pch */,
 				2AB4B1AF1BDA711100885222 /* Defines.h */,
+				2AFAA71D1BE2689400141D54 /* Defines.m */,
 				2AFEB14A1BD7715B00D68A33 /* Main.storyboard */,
 				2AFEB14D1BD7715B00D68A33 /* Assets.xcassets */,
 				2AFEB14F1BD7715B00D68A33 /* LaunchScreen.storyboard */,
@@ -227,15 +235,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A3B15921BDE7A1400020A47 /* GifEditViewController.m in Sources */,
 				2A1B108A1BD905AB009B9EB9 /* VideoToGIFConverter.m in Sources */,
 				2AFEB1491BD7715B00D68A33 /* ViewController.m in Sources */,
 				2AFEB1461BD7715B00D68A33 /* AppDelegate.m in Sources */,
+				2AF9F3181BDFB79B00AAAFB3 /* GifEditCollectionViewFlowLayout.m in Sources */,
 				2A1E4ACA1BD7D6FE00342877 /* ShowGifImageView.m in Sources */,
+				2AF9F3151BDFB64E00AAAFB3 /* GifEditCollectionViewController.m in Sources */,
 				2AFEB1431BD7715B00D68A33 /* main.m in Sources */,
 				2AB4B1B51BDA82B000885222 /* ShowGifImageViewController.m in Sources */,
 				2A1B10851BD8F837009B9EB9 /* GifImageGenerater.m in Sources */,
-				2A3B158E1BDE79EB00020A47 /* GifEditView.m in Sources */,
+				2AF9F3421BDFB7D200AAAFB3 /* GifEditCollectionViewCell.m in Sources */,
+				2AFAA71E1BE2689400141D54 /* Defines.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,6 +357,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_INT_CONVERSION = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/GifShowViewDemo/GifShowView_pch.pch";
 				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = NO;
@@ -362,6 +373,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_INT_CONVERSION = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)GifShowView_pch.pch";
 				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = NO;
