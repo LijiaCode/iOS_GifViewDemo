@@ -12,8 +12,8 @@
 
 + (instancetype _Nonnull)shareInstance;
 
-- (NSDate* _Nullable)generateGIFImageWithInfo: (NSDictionary* _Nonnull)imageInfo;
+- (NSDate* _Nullable)generateGIFImageWithInfo: (NSDictionary* _Nonnull)imageInfo withTmpPath: (NSString* _Nonnull)filePath;
 
-- (NSDictionary* _Nullable)getGifImageInfoWith: (NSData* _Nullable)imageData;
+- (NSMutableDictionary* _Nullable)getGifImageInfoWith: (NSData* _Nullable)imageData;
 
 @end

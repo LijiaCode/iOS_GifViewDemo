@@ -11,14 +11,14 @@
 #import "GifImageGenerater.h"
 #import "GifEditCollectionViewCell.h"
 #import "ShowGifImageViewController.h"
+#import <Photos/Photos.h>
 
 
 @interface GifEditCollectionViewController ()
 
-@property(nonatomic, strong)NSData* imageData;
-@property(nonatomic, assign)NSUInteger pictureCount;
-@property(nonatomic, strong)NSMutableArray* images;
+@property(nonatomic, strong)NSMutableDictionary* imageInfoDic;
 @property(nonatomic, assign)NSUInteger cloCount;
+@property(nonatomic, strong)NSString* recentSavePath;
 
 @end
 
@@ -37,12 +37,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)initWithData: (NSData*)imageData
 {
-    NSDictionary* imageInfo = [[GifImageGenerater shareInstance] getGifImageInfoWith:imageData];
-    if (imageInfo)
-    {
-        self.images = [imageInfo objectForKey:@"images"];
-        self.pictureCount = self.images.count;
-    }
+    self.imageInfoDic = [[GifImageGenerater shareInstance] getGifImageInfoWith:imageData];
 }
 
 - (void)viewDidLoad
@@ -77,19 +72,56 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)saveGifImageToLocal: (id)sendr
 {
-    NSLog(@"save");
+    NSString* filePath = getCurGifFileName();
+    NSData* imageData = [[GifImageGenerater shareInstance] generateGIFImageWithInfo:self.imageInfoDic withTmpPath:filePath];
+    
+    if (imageData)
+    {
+        self.recentSavePath = filePath;
+        [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+            // Request creating an asset from the image.
+            PHAssetChangeRequest *createAssetRequest = [PHAssetChangeRequest creationRequestForAssetFromImageAtFileURL:[NSURL URLWithString:self.recentSavePath]];
+        } completionHandler:^(BOOL success, NSError *error) {
+            UIAlertController* alertCrl = [UIAlertController alertControllerWithTitle:@"提示" message:@"保存成功" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+            [alertCrl addAction:cancelAction];
+            
+            [self.navigationController presentViewController:alertCrl animated:YES completion:^(){}];
+
+        }];
+    }
+    else
+    {
+        UIAlertController* alertCrl = [UIAlertController alertControllerWithTitle:@"提示" message:@"图片生成失败" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        [alertCrl addAction:cancelAction];
+        
+        [self.navigationController presentViewController:alertCrl animated:YES completion:^(){}];
+    }
 }
 
 - (void)previewGifImage: (id)sender
 {
     NSString* filePath = getCurGifFileName();
-    NSDictionary* _Nonnull dic = @{@"images":self.images, @"filePath":filePath};
-    NSData* imageData = [[GifImageGenerater shareInstance] generateGIFImageWithInfo:(NSDictionary* _Nonnull)dic];
+    NSData* imageData = [[GifImageGenerater shareInstance] generateGIFImageWithInfo:self.imageInfoDic withTmpPath:filePath];
     
-    ShowGifImageViewController* showGifViewCrl = [[ShowGifImageViewController alloc] init];
-    showGifViewCrl.imageData = imageData;
-    showGifViewCrl.isPreview = YES;
-    [self.navigationController pushViewController:showGifViewCrl animated:YES];
+    if (imageData)
+    {
+        self.recentSavePath = filePath;
+        ShowGifImageViewController* showGifViewCrl = [[ShowGifImageViewController alloc] init];
+        showGifViewCrl.imageData = imageData;
+        showGifViewCrl.isPreview = YES;
+        showGifViewCrl.recentSavePath = filePath;
+        [self.navigationController pushViewController:showGifViewCrl animated:YES];
+    }
+    else
+    {
+        UIAlertController* alertCrl = [UIAlertController alertControllerWithTitle:@"提示" message:@"图片生成失败" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        [alertCrl addAction:cancelAction];
+        
+        [self.navigationController presentViewController:alertCrl animated:YES completion:^(){}];
+    }
 }
 
 - (void)undo: (id)sender
@@ -107,21 +139,24 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    CGFloat value = self.pictureCount * 1.0 / self.cloCount;
+    NSUInteger imageCount = [[self.imageInfoDic objectForKey:@"imageCount"] intValue];
+    CGFloat value = imageCount * 1.0 / self.cloCount;
     NSUInteger result = ceil(value);
     return result;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    NSUInteger value = ((self.pictureCount - self.cloCount * section) > self.cloCount) ? self.cloCount : self.pictureCount - self.cloCount * section;
+    NSUInteger imageCount = [[self.imageInfoDic objectForKey:@"imageCount"] intValue];
+    NSUInteger value = ((imageCount - self.cloCount * section) > self.cloCount) ? self.cloCount : imageCount - self.cloCount * section;
     return value;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     GifEditCollectionViewCell *cell = (GifEditCollectionViewCell*)[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    UIImage* showImage = self.images[indexPath.section * self.cloCount + indexPath.row];
+    NSArray* images = [self.imageInfoDic objectForKey:@"images"];
+    UIImage* showImage = images[indexPath.section * self.cloCount + indexPath.row];
     cell.showImage = showImage;
     return cell;
 }
@@ -129,9 +164,8 @@ static NSString * const reuseIdentifier = @"Cell";
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CGSize imageSize = CGSizeZero;
-    UIImage* image = self.images[0];
     
-    CGSize oriImageSize = image.size;
+    CGSize oriImageSize = CGSizeMake([[self.imageInfoDic objectForKey:@"width"] floatValue], [[self.imageInfoDic objectForKey:@"width"] floatValue]);
     float newWidth = gifEditCellWidth;
     float newHeight = (newWidth * oriImageSize.height) / oriImageSize.width;
     imageSize = CGSizeMake(newWidth, newHeight);

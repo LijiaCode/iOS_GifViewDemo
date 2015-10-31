@@ -32,11 +32,10 @@
     return [GifImageGenerater shareInstance];
 }
 
-- (NSDate* _Nullable)generateGIFImageWithInfo: (NSDictionary* _Nonnull)imageInfo
+- (NSDate* _Nullable)generateGIFImageWithInfo: (NSDictionary* _Nonnull)imageInfo withTmpPath: (NSString*)filePath
 {
     //数据
     NSMutableArray* images = [imageInfo objectForKey:@"images"];
-    NSString* filePath = [imageInfo objectForKey:@"filePath"];
     //创建CFURL对象
     CFURLRef url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, (CFStringRef)filePath, kCFURLPOSIXPathStyle, false);
     
@@ -45,7 +44,7 @@
     
     //设置gif的信息,播放间隔时间,基本数据,和delay时间
     NSDictionary *frameProperties = [NSDictionary
-                                     dictionaryWithObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:0.03], (NSString *)kCGImagePropertyGIFDelayTime, nil]
+                                     dictionaryWithObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:[imageInfo objectForKey:@"delayTime"], (NSString *)kCGImagePropertyGIFDelayTime, nil]
                                      forKey:(NSString *)kCGImagePropertyGIFDictionary];
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:2];
     
@@ -55,7 +54,7 @@
     
     [dict setObject:[NSNumber numberWithInt:8] forKey:(NSString*)kCGImagePropertyDepth];
     
-    [dict setObject:[NSNumber numberWithInt:0] forKey:(NSString *)kCGImagePropertyGIFLoopCount];
+    [dict setObject:[imageInfo objectForKey:@"loopCount"] forKey:(NSString *)kCGImagePropertyGIFLoopCount];
     NSDictionary *gifProperties = [NSDictionary dictionaryWithObject:dict
                                                               forKey:(NSString *)kCGImagePropertyGIFDictionary];
     //合成gif
@@ -74,12 +73,12 @@
     return imageData;
 }
 
-- (NSDictionary* _Nullable)getGifImageInfoWith: (NSData* _Nullable)imageData
+- (NSMutableDictionary* _Nullable)getGifImageInfoWith: (NSData* _Nullable)imageData
 {
     if (!imageData)
         return nil;
     CGImageSourceRef src = CGImageSourceCreateWithData((CFDataRef)imageData, NULL);
-    NSDictionary* imageInfo = nil;
+    NSMutableDictionary* imageInfo = nil;
     if (src)
     {
         size_t imageCount = CGImageSourceGetCount(src); //获取png图数目
@@ -110,7 +109,9 @@
             NSDictionary *frameProperties = [gifProperties objectForKey:(NSString *)kCGImagePropertyGIFDictionary];
             CGFloat delayTime = [[frameProperties valueForKey:(NSString*)kCGImagePropertyGIFDelayTime] floatValue];
             
-            imageInfo = @{@"images":images, @"delayTime":[NSNumber numberWithFloat:delayTime],
+            imageInfo = @{@"images":images,
+                          @"imageCount":[NSNumber numberWithInteger:imageCount],
+                          @"delayTime":[NSNumber numberWithFloat:delayTime],
                           @"loopCount":[NSNumber numberWithInteger: loopCount],
                           @"width":[NSNumber numberWithFloat:width],
                           @"height":[NSNumber numberWithFloat:height]};

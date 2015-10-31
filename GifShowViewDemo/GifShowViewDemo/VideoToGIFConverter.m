@@ -64,9 +64,9 @@
     [fileManager createDirectoryAtPath:textDirectory withIntermediateDirectories:YES attributes:nil error:nil];
     NSString *path = [textDirectory stringByAppendingPathComponent:@"test.gif"];
     
-    NSDictionary* dict = @{@"images":images, @"filePath":path};
+    NSDictionary* dict = @{@"images":images};
     GifImageGenerater* instance = [GifImageGenerater shareInstance];
-    NSData* lldata = [instance generateGIFImageWithInfo:dict];
+    NSData* lldata = [instance generateGIFImageWithInfo:dict withTmpPath:path];
     return lldata;
 }
 @end
