@@ -29,5 +29,11 @@ NSString* getCurGifFileName();
 NSString* getCurrentTimeString();
 NSString* getTmpGifPath();
 
+typedef NS_ENUM(NSUInteger, GifEditType)
+{
+    GifEditDelete = 0,
+    GifEditChange,
+    GifEditInsert
+};
 
 #endif /* Defines_h */

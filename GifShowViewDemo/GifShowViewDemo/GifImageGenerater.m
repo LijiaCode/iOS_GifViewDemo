@@ -83,7 +83,7 @@
     {
         size_t imageCount = CGImageSourceGetCount(src); //获取png图数目
        
-        NSMutableArray* images = [[NSMutableArray alloc] initWithCapacity:imageCount];
+        NSMutableArray* images = [[NSMutableArray alloc] init];
         
         for (int i = 0; i < imageCount; ++i)
         {
@@ -109,12 +109,15 @@
             NSDictionary *frameProperties = [gifProperties objectForKey:(NSString *)kCGImagePropertyGIFDictionary];
             CGFloat delayTime = [[frameProperties valueForKey:(NSString*)kCGImagePropertyGIFDelayTime] floatValue];
             
-            imageInfo = @{@"images":images,
-                          @"imageCount":[NSNumber numberWithInteger:imageCount],
-                          @"delayTime":[NSNumber numberWithFloat:delayTime],
-                          @"loopCount":[NSNumber numberWithInteger: loopCount],
-                          @"width":[NSNumber numberWithFloat:width],
-                          @"height":[NSNumber numberWithFloat:height]};
+            imageInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                                    images,@"images",
+                                   [NSNumber numberWithInteger:imageCount],@"imageCount",
+                                      [NSNumber numberWithFloat:delayTime],@"delayTime",
+                                   [NSNumber numberWithInteger: loopCount],@"loopCount",
+                                          [NSNumber numberWithFloat:width],@"width",
+                                         [NSNumber numberWithFloat:height],@"height",
+                                                                       nil];
+            
             CFRelease((__bridge CFTypeRef)(gifProperties));
         }
         CFRelease(src);

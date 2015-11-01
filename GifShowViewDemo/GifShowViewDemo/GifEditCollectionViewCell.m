@@ -8,6 +8,8 @@
 
 #import "GifEditCollectionViewCell.h"
 
+static const CGFloat imageMargin = 4.0f;
+
 @interface GifEditCollectionViewCell()
 @property(nonatomic, strong)UIImageView* showImageView;
 @end
@@ -31,7 +33,7 @@
         self.showImageView = [[UIImageView alloc] init];
         self.showImageView.backgroundColor = [UIColor whiteColor];
         [self addSubview:self.showImageView];
-        self.backgroundColor = [UIColor grayColor];
+        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -52,7 +54,7 @@
     float newWidth = width;
     float newHeight = (width * orgiHeight) / orgiWidth;
     
-    [self.showImageView setFrame:CGRectMake(0, 0, newWidth, newHeight)];
+    [self.showImageView setFrame:CGRectMake(imageMargin, imageMargin, newWidth - 2 * imageMargin, newHeight - 2 * imageMargin)];
 }
 
 @end

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GifEditCollectionViewController : UICollectionViewController
+@interface GifEditCollectionViewController : UICollectionViewController<UIGestureRecognizerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 -(instancetype)initWithImageData: (NSData*)imageData withCollectionViewLayout: (UICollectionViewLayout*)layout;
 @end
