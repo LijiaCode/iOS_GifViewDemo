@@ -247,8 +247,14 @@ static const CGFloat topMargin = 5.0f;
         index = self.insertIndexPath.row;
     else
         index = [[self.imageInfoDic objectForKey:@"imageCount"] integerValue];
-
+    NSUInteger imageCount = [[self.imageInfoDic objectForKey:@"imageCount"] integerValue];
+    [self.imageInfoDic setObject:[NSNumber numberWithInteger:imageCount + 1] forKey:@"imageCount"];
     [images insertObject:newImage atIndex:index];
+    
+    if (self.insertIndexPath == nil)
+    {
+        self.insertIndexPath = [NSIndexPath indexPathForRow:imageCount inSection:0];
+    }
     [self.collectionView insertItemsAtIndexPaths:@[self.insertIndexPath]];
 }
 
@@ -314,8 +320,6 @@ static const CGFloat topMargin = 5.0f;
 {
     [self dismissViewControllerAnimated:YES completion:^(){}];
 }
-
-
 
 #pragma mark delete
 
