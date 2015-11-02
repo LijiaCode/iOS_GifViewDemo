@@ -36,4 +36,10 @@ typedef NS_ENUM(NSUInteger, GifEditType)
     GifEditInsert
 };
 
+typedef NS_ENUM(NSUInteger, UndoRedoType)
+{
+    GifUndo = 0,
+    GifRedo
+};
+
 #endif /* Defines_h */

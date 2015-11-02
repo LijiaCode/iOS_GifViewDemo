@@ -12,19 +12,26 @@
 #import "GifEditCollectionViewCell.h"
 #import "ShowGifImageViewController.h"
 #import <Photos/Photos.h>
+#import "GifEditNotify.h"
 
 
 @interface GifEditCollectionViewController ()
 
-@property(nonatomic, strong)NSMutableDictionary* imageInfoDic;
-@property(nonatomic, assign)NSUInteger cloCount;
-@property(nonatomic, strong)NSString* recentSavePath;
+@property(nonatomic, strong)NSMutableDictionary* imageInfoDic;//gif 相关信息
+@property(nonatomic, assign)NSUInteger cloCount; //每列个数
+@property(nonatomic, assign)CGFloat xMargin; //每列x间距
+@property(nonatomic, assign)CGSize imageSize; //图片大小
+
 @property(nonatomic, strong)NSIndexPath* curSelectedIndexPath;
-@property(nonatomic, assign)CGFloat xMargin;
 @property(nonatomic, strong)NSIndexPath* insertIndexPath;
-@property(nonatomic, assign)CGSize imageSize;
 @property(nonatomic, assign)GifEditType curEditType;
 
+@property(nonatomic, strong)NSMutableArray<GifEditNotify*>* gifEditUndoStack;
+@property(nonatomic, strong)NSMutableArray<GifEditNotify*>* gifEditRedoStack;
+@property(nonatomic, weak)UIBarButtonItem* undoBtn;
+@property(nonatomic, weak)UIBarButtonItem* redoBtn;
+
+@property(nonatomic, strong)NSString* recentSavePath; //gif中间文档存储位置。
 @end
 
 @implementation GifEditCollectionViewController
@@ -49,12 +56,18 @@ static const CGFloat topMargin = 5.0f;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIBarButtonItem *saveBtn = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(saveGifImageToLocal:)];
-    UIBarButtonItem *previewBtn = [[UIBarButtonItem alloc] initWithTitle:@"预览" style:UIBarButtonItemStylePlain target:self action:@selector(previewGifImage:)];
-    UIBarButtonItem *undoBtn = [[UIBarButtonItem alloc] initWithTitle:@"撤销" style:UIBarButtonItemStylePlain target:self action:@selector(undo:)];
-    UIBarButtonItem *redoBtn = [[UIBarButtonItem alloc] initWithTitle:@"恢复" style:UIBarButtonItemStylePlain target:self action:@selector(redo:)];
-    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects: saveBtn, previewBtn, undoBtn, redoBtn, nil]];
-    
+    UIBarButtonItem* saveBtn = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(saveGifImageToLocal:)];
+    UIBarButtonItem* previewBtn = [[UIBarButtonItem alloc] initWithTitle:@"预览" style:UIBarButtonItemStylePlain target:self action:@selector(previewGifImage:)];
+    UIBarButtonItem* undoBtn = [[UIBarButtonItem alloc] initWithTitle:@"撤销" style:UIBarButtonItemStylePlain target:self action:@selector(undoRedo:)];
+    undoBtn.enabled = NO;
+    undoBtn.tag = GifUndo;
+    UIBarButtonItem* redoBtn = [[UIBarButtonItem alloc] initWithTitle:@"恢复" style:UIBarButtonItemStylePlain target:self action:@selector(undoRedo:)];
+    redoBtn.tag = GifRedo;
+    redoBtn.enabled = NO;
+   
+    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects: saveBtn, previewBtn, redoBtn, undoBtn, nil]];
+    self.undoBtn = undoBtn;
+    self.redoBtn = redoBtn;
     
     UIBarButtonItem* backBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(getBackChoicePictureViewController:)];
     [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:backBtn, nil]];
@@ -63,7 +76,10 @@ static const CGFloat topMargin = 5.0f;
     
     GifEditCollectionViewFlowLayout* layout = [[GifEditCollectionViewFlowLayout alloc] init];
     self.collectionView.collectionViewLayout = layout;
-
+    self.gifEditUndoStack = [[NSMutableArray alloc] init];
+    self.gifEditRedoStack = [[NSMutableArray alloc] init];
+    
+    
     [self.collectionView registerClass:[GifEditCollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
 
     self.collectionView.delegate = self;
@@ -151,16 +167,88 @@ static const CGFloat topMargin = 5.0f;
     return newImage;
 }
 
-
-- (void)undo: (id)sender
+//只要发生一次编辑操作  之前的redo都会无效。
+- (void)clearRedoStack
 {
-    NSLog(@"undo");
+    [self.gifEditRedoStack removeAllObjects];
+    self.redoBtn.enabled = YES;
 }
 
-- (void)redo: (id)sender
+- (void)checkUndeRedoState
 {
-    NSLog(@"redo");
+    self.redoBtn.enabled = self.gifEditRedoStack.count > 0 ? YES : NO;
+    self.undoBtn.enabled = self.gifEditUndoStack.count > 0 ? YES : NO;
 }
+
+- (void)undoRedo: (UIBarButtonItem*)sender
+{
+    GifEditNotify* editNotify = nil;
+    if (sender.tag == GifUndo)
+        editNotify = self.gifEditUndoStack.lastObject;
+    else
+        editNotify = self.gifEditRedoStack.lastObject;
+    
+    GifEditNotify* newNotify = [[GifEditNotify alloc] init];
+    NSMutableArray* images = [self.imageInfoDic objectForKey:@"images"];
+    switch (editNotify.editType)
+    {
+        case GifEditChange:
+        {
+            NSIndexPath* indexPath = editNotify.indexPath;
+            UIImage* oldImage = images[indexPath.row];
+            images[indexPath.row] = editNotify.image;
+            [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+            
+            newNotify.editType = GifEditChange;
+            newNotify.image = oldImage;
+            newNotify.indexPath = indexPath;
+            break;
+        }
+        case GifEditDelete:
+        {
+            NSIndexPath* indexPath = editNotify.indexPath;
+            [images insertObject:editNotify.image atIndex:indexPath.row];
+            NSUInteger imageCount = [[self.imageInfoDic objectForKey:@"imageCount"] integerValue];
+            [self.imageInfoDic setObject:[NSNumber numberWithInteger:imageCount + 1] forKey:@"imageCount"];
+            [self.collectionView insertItemsAtIndexPaths:@[indexPath]];
+            
+            newNotify.editType = GifEditInsert;
+            newNotify.image = images[indexPath.row];
+            newNotify.indexPath = indexPath;
+            break;
+        }
+        
+        case GifEditInsert:
+        {
+            NSIndexPath* indexPath = editNotify.indexPath;
+            UIImage* oldImage = images[indexPath.row];
+            [images removeObjectAtIndex:indexPath.row];
+            NSUInteger imageCount = [[self.imageInfoDic objectForKey:@"imageCount"] integerValue];
+            [self.imageInfoDic setObject:[NSNumber numberWithInteger:imageCount - 1] forKey:@"imageCount"];
+            [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+            
+            newNotify.editType = GifEditDelete;
+            newNotify.image = oldImage;
+            newNotify.indexPath = indexPath;
+            break;
+        }
+        default:
+            break;
+    }
+    if (sender.tag == GifUndo)
+    {
+        [self.gifEditUndoStack removeLastObject];
+        [self.gifEditRedoStack addObject:newNotify];
+    }
+    else
+    {
+        [self.gifEditRedoStack removeLastObject];
+        [self.gifEditUndoStack addObject:newNotify];
+    }
+    
+    [self checkUndeRedoState];
+}
+
 
 - (void)longPressGestureDetected:(UILongPressGestureRecognizer *)gesture
 {
@@ -257,6 +345,15 @@ static const CGFloat topMargin = 5.0f;
         self.insertIndexPath = [NSIndexPath indexPathForRow:imageCount inSection:0];
     }
     [self.collectionView insertItemsAtIndexPaths:@[self.insertIndexPath]];
+    
+    [self clearRedoStack];
+    GifEditNotify* editNotify = [[GifEditNotify alloc] init];
+    editNotify.editType = GifEditInsert;
+    editNotify.image = newImage;
+    editNotify.indexPath = self.insertIndexPath;
+    
+    [self.gifEditUndoStack addObject:editNotify];
+    [self checkUndeRedoState];
 }
 
 #pragma mark change
@@ -267,7 +364,6 @@ static const CGFloat topMargin = 5.0f;
     UIImagePickerController* picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate = self;
-    picker.allowsEditing = YES;
     [self.navigationController presentViewController: picker animated:YES completion:^(){}];
 }
 
@@ -276,9 +372,19 @@ static const CGFloat topMargin = 5.0f;
     NSMutableArray* images = [self.imageInfoDic objectForKey:@"images"];
     //将插入的图片进行重画  调整宽高。
     UIImage* newImage = [self redrawImage:image];
-    NSUInteger index = self.curSelectedIndexPath.row;
-    images[index] = newImage;
+    UIImage* oldImage = images[self.curSelectedIndexPath.row];
+    images[self.curSelectedIndexPath.row] = newImage;
     [self.collectionView reloadItemsAtIndexPaths:@[self.curSelectedIndexPath]];
+    
+    
+    [self clearRedoStack];
+    GifEditNotify* editNotify = [[GifEditNotify alloc] init];
+    editNotify.editType = GifEditChange;
+    editNotify.image = oldImage;
+    editNotify.indexPath = self.curSelectedIndexPath;
+    
+    [self.gifEditUndoStack addObject:editNotify];
+    [self checkUndeRedoState];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
@@ -330,16 +436,27 @@ static const CGFloat topMargin = 5.0f;
     {
         NSMutableArray* images = [self.imageInfoDic objectForKey:@"images"];
         //删除对应位置图片
-        NSUInteger index = self.curSelectedIndexPath.section * self.cloCount + self.curSelectedIndexPath.row;
-        [images removeObjectAtIndex:index];
+        UIImage* oldImage = images[self.curSelectedIndexPath.row];
+        [images removeObjectAtIndex:self.curSelectedIndexPath.row];
         NSUInteger imageCount = [[self.imageInfoDic objectForKey:@"imageCount"] integerValue];
         [self.imageInfoDic setObject:[NSNumber numberWithInteger:imageCount - 1] forKey:@"imageCount"];
         
         NSArray* deleteArr = [NSArray arrayWithObjects:self.curSelectedIndexPath, nil];
         [self.collectionView deleteItemsAtIndexPaths:deleteArr];
-        self.curSelectedIndexPath = nil;
         self.curEditType = GifEditDelete;
-    } completion:^(BOOL b){}];
+        
+        [self clearRedoStack];
+        GifEditNotify* editNotify = [[GifEditNotify alloc] init];
+        editNotify.editType = GifEditDelete;
+        editNotify.image = oldImage;
+        editNotify.indexPath = self.curSelectedIndexPath;
+        
+        [self.gifEditUndoStack addObject:editNotify];
+        [self checkUndeRedoState];
+        self.curSelectedIndexPath = nil;
+    } completion:^(BOOL b)
+    {
+    }];
 }
 
 

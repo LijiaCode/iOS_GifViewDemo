@@ -16,6 +16,7 @@
 		2A1E4ACE1BD7DA7D00342877 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A1E4ACD1BD7DA7D00342877 /* ImageIO.framework */; };
 		2AB4B1B51BDA82B000885222 /* ShowGifImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB4B1B41BDA82B000885222 /* ShowGifImageViewController.m */; };
 		2AB4B1B91BDA86EF00885222 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AB4B1B81BDA86EF00885222 /* Photos.framework */; };
+		2AC215E61BE79DFD00C7ACDE /* GifEditNotify.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AC215E51BE79DFD00C7ACDE /* GifEditNotify.m */; };
 		2AF9F3151BDFB64E00AAAFB3 /* GifEditCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF9F3141BDFB64E00AAAFB3 /* GifEditCollectionViewController.m */; };
 		2AF9F3181BDFB79B00AAAFB3 /* GifEditCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF9F3171BDFB79B00AAAFB3 /* GifEditCollectionViewFlowLayout.m */; };
 		2AF9F3421BDFB7D200AAAFB3 /* GifEditCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF9F3411BDFB7D200AAAFB3 /* GifEditCollectionViewCell.m */; };
@@ -44,6 +45,8 @@
 		2AB4B1B31BDA82B000885222 /* ShowGifImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowGifImageViewController.h; sourceTree = "<group>"; };
 		2AB4B1B41BDA82B000885222 /* ShowGifImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowGifImageViewController.m; sourceTree = "<group>"; };
 		2AB4B1B81BDA86EF00885222 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		2AC215E41BE79DFD00C7ACDE /* GifEditNotify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifEditNotify.h; sourceTree = "<group>"; };
+		2AC215E51BE79DFD00C7ACDE /* GifEditNotify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GifEditNotify.m; sourceTree = "<group>"; };
 		2AF9F3131BDFB64E00AAAFB3 /* GifEditCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifEditCollectionViewController.h; sourceTree = "<group>"; };
 		2AF9F3141BDFB64E00AAAFB3 /* GifEditCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GifEditCollectionViewController.m; sourceTree = "<group>"; };
 		2AF9F3161BDFB79B00AAAFB3 /* GifEditCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifEditCollectionViewFlowLayout.h; sourceTree = "<group>"; };
@@ -93,12 +96,8 @@
 		2A3B158B1BDE79C700020A47 /* GifEdit */ = {
 			isa = PBXGroup;
 			children = (
-				2AF9F3131BDFB64E00AAAFB3 /* GifEditCollectionViewController.h */,
-				2AF9F3141BDFB64E00AAAFB3 /* GifEditCollectionViewController.m */,
-				2AF9F3161BDFB79B00AAAFB3 /* GifEditCollectionViewFlowLayout.h */,
-				2AF9F3171BDFB79B00AAAFB3 /* GifEditCollectionViewFlowLayout.m */,
-				2AF9F3401BDFB7D200AAAFB3 /* GifEditCollectionViewCell.h */,
-				2AF9F3411BDFB7D200AAAFB3 /* GifEditCollectionViewCell.m */,
+				2AC215E31BE79D4E00C7ACDE /* GifEditNotify */,
+				2AC215E21BE79D3300C7ACDE /* GifEditView */,
 			);
 			name = GifEdit;
 			sourceTree = "<group>";
@@ -112,6 +111,28 @@
 				2A1B10891BD905AB009B9EB9 /* VideoToGIFConverter.m */,
 			);
 			name = GifBulider;
+			sourceTree = "<group>";
+		};
+		2AC215E21BE79D3300C7ACDE /* GifEditView */ = {
+			isa = PBXGroup;
+			children = (
+				2AF9F3131BDFB64E00AAAFB3 /* GifEditCollectionViewController.h */,
+				2AF9F3141BDFB64E00AAAFB3 /* GifEditCollectionViewController.m */,
+				2AF9F3161BDFB79B00AAAFB3 /* GifEditCollectionViewFlowLayout.h */,
+				2AF9F3171BDFB79B00AAAFB3 /* GifEditCollectionViewFlowLayout.m */,
+				2AF9F3401BDFB7D200AAAFB3 /* GifEditCollectionViewCell.h */,
+				2AF9F3411BDFB7D200AAAFB3 /* GifEditCollectionViewCell.m */,
+			);
+			name = GifEditView;
+			sourceTree = "<group>";
+		};
+		2AC215E31BE79D4E00C7ACDE /* GifEditNotify */ = {
+			isa = PBXGroup;
+			children = (
+				2AC215E41BE79DFD00C7ACDE /* GifEditNotify.h */,
+				2AC215E51BE79DFD00C7ACDE /* GifEditNotify.m */,
+			);
+			name = GifEditNotify;
 			sourceTree = "<group>";
 		};
 		2AFEB1351BD7715A00D68A33 = {
@@ -246,6 +267,7 @@
 				2A1B10851BD8F837009B9EB9 /* GifImageGenerater.m in Sources */,
 				2AF9F3421BDFB7D200AAAFB3 /* GifEditCollectionViewCell.m in Sources */,
 				2AFAA71E1BE2689400141D54 /* Defines.m in Sources */,
+				2AC215E61BE79DFD00C7ACDE /* GifEditNotify.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
