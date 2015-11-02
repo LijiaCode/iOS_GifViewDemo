@@ -32,7 +32,7 @@
     return [GifImageGenerater shareInstance];
 }
 
-- (NSDate* _Nullable)generateGIFImageWithInfo: (NSDictionary* _Nonnull)imageInfo withTmpPath: (NSString*)filePath
+- (NSData*)generateGIFImageWithInfo: (NSDictionary* _Nonnull)imageInfo withTmpPath: (NSString*)filePath
 {
     //数据
     NSMutableArray* images = [imageInfo objectForKey:@"images"];
@@ -67,7 +67,7 @@
     CGImageDestinationSetProperties(destination, (__bridge CFDictionaryRef)gifProperties);
     CGImageDestinationFinalize(destination);
     CFRelease(destination);
-    NSDate*  imageData = (NSDate*)[NSData dataWithContentsOfURL:(__bridge NSURL *)(url)];
+    NSData*  imageData = (NSData*)[NSData dataWithContentsOfURL:(__bridge NSURL *)(url)];
     CFRelease(url);
     
     return imageData;

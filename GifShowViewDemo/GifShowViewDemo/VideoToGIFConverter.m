@@ -35,7 +35,7 @@
     return [VideoToGIFConverter shareInstance];
 }
 
-- (nullable NSDate*)convertVideoToGif: (NSDictionary*)videoInfo
+- (nullable NSData*)convertVideoToGif: (NSDictionary*)videoInfo
 {
     NSURL *url = [videoInfo valueForKey:@"url"];
     
@@ -66,7 +66,6 @@
     
     NSDictionary* dict = @{@"images":images};
     GifImageGenerater* instance = [GifImageGenerater shareInstance];
-    NSData* lldata = [instance generateGIFImageWithInfo:dict withTmpPath:path];
-    return lldata;
+    return [instance generateGIFImageWithInfo:dict withTmpPath:path];
 }
 @end
