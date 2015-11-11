@@ -137,8 +137,12 @@ static const CGFloat topMargin = 5.0f;
     if (imageData)
     {
         self.recentSavePath = filePath;
+        CGFloat width = [[self.imageInfoDic objectForKey:@"width"] floatValue];
+        CGFloat height = [[self.imageInfoDic objectForKey:@"height"] floatValue];
+        CGSize showSize = CGSizeMake(width, height);
         ShowGifImageViewController* showGifViewCrl = [[ShowGifImageViewController alloc] init];
         showGifViewCrl.imageData = imageData;
+        showGifViewCrl.showViewSize = showSize;
         showGifViewCrl.isPreview = YES;
         showGifViewCrl.recentSavePath = filePath;
         [self.navigationController pushViewController:showGifViewCrl animated:YES];
