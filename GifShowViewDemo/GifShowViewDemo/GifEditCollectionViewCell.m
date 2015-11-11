@@ -43,7 +43,7 @@ static const CGFloat imageMargin = 4.0f;
 {
     _showImage = showImage;
     self.showImageView.image = showImage;
-    [self compressImage:gifEditCellWidth image:_showImage];
+    [self compressImage:getGifEditCellWidth() image:_showImage];
 }
 
 - (void)compressImage:(float)width image: (UIImage*)image

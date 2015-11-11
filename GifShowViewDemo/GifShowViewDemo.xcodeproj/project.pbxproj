@@ -135,10 +135,21 @@
 			name = GifEditNotify;
 			sourceTree = "<group>";
 		};
-		2AFEB1351BD7715A00D68A33 = {
+		2AEADB9E1BE8F6E100996267 /* frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				2AB4B1B81BDA86EF00885222 /* Photos.framework */,
+				2A1B108B1BD9082D009B9EB9 /* AVFoundation.framework */,
+				2A1B10861BD8FC5C009B9EB9 /* MobileCoreServices.framework */,
+				2A1E4ACD1BD7DA7D00342877 /* ImageIO.framework */,
+				2A1E4ACB1BD7DA2800342877 /* CoreGraphics.framework */,
+			);
+			name = frameworks;
+			sourceTree = "<group>";
+		};
+		2AFEB1351BD7715A00D68A33 = {
+			isa = PBXGroup;
+			children = (
 				2AFEB1401BD7715B00D68A33 /* GifShowViewDemo */,
 				2AFEB13F1BD7715B00D68A33 /* Products */,
 			);
@@ -169,10 +180,7 @@
 				2AFEB14D1BD7715B00D68A33 /* Assets.xcassets */,
 				2AFEB14F1BD7715B00D68A33 /* LaunchScreen.storyboard */,
 				2AFEB1521BD7715B00D68A33 /* Info.plist */,
-				2A1B108B1BD9082D009B9EB9 /* AVFoundation.framework */,
-				2A1B10861BD8FC5C009B9EB9 /* MobileCoreServices.framework */,
-				2A1E4ACD1BD7DA7D00342877 /* ImageIO.framework */,
-				2A1E4ACB1BD7DA2800342877 /* CoreGraphics.framework */,
+				2AEADB9E1BE8F6E100996267 /* frameworks */,
 				2AFEB1411BD7715B00D68A33 /* Supporting Files */,
 			);
 			path = GifShowViewDemo;

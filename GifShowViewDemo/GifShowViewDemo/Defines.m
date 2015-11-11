@@ -9,6 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "Defines.h"
 
+bool isPhone()
+{
+    return [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone;
+}
+
+inline CGFloat getGifEditCellWidth()
+{
+    return isPhone() ? 150.f : 200.f;
+}
 
 NSString* getCurGifFileName()
 {

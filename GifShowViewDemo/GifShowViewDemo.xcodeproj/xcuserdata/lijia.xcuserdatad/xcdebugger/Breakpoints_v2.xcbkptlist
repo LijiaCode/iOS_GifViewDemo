@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GifShowViewDemo/GifEditCollectionViewController.m"
-            timestampString = "468168664.526883"
+            timestampString = "468252287.036647"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "498"
-            endingLineNumber = "498"
+            startingLineNumber = "500"
+            endingLineNumber = "500"
             landmarkName = "-collectionView:layout:insetForSectionAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
@@ -84,11 +84,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GifShowViewDemo/GifEditCollectionViewController.m"
-            timestampString = "468168664.526883"
+            timestampString = "468252287.036647"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "340"
-            endingLineNumber = "340"
+            startingLineNumber = "342"
+            endingLineNumber = "342"
             landmarkName = "-insertAfterSelectedImage:"
             landmarkType = "5">
          </BreakpointContent>
@@ -121,12 +121,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GifShowViewDemo/GifEditCollectionViewController.m"
-            timestampString = "468168713.943371"
+            timestampString = "468252287.036647"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
             landmarkName = "-undoRedo:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GifShowViewDemo/ShowGifImageView.m"
+            timestampString = "468937202.967047"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "-addGifKeyframeAnimation"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

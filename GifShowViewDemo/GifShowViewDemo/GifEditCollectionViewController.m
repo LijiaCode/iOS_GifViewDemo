@@ -72,7 +72,7 @@ static const CGFloat topMargin = 5.0f;
     UIBarButtonItem* backBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(getBackChoicePictureViewController:)];
     [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:backBtn, nil]];
     
-    self.cloCount = (int)(self.view.frame.size.width) / (int)gifEditCellWidth;
+    self.cloCount = (int)(self.view.frame.size.width) / (int)getGifEditCellWidth();
     
     GifEditCollectionViewFlowLayout* layout = [[GifEditCollectionViewFlowLayout alloc] init];
     self.collectionView.collectionViewLayout = layout;
@@ -131,6 +131,7 @@ static const CGFloat topMargin = 5.0f;
 - (void)previewGifImage: (id)sender
 {
     NSString* filePath = getCurGifFileName();
+    //这个操作还挺费时间的
     NSData* imageData = [[GifImageGenerater shareInstance] generateGIFImageWithInfo:self.imageInfoDic withTmpPath:filePath];
     
     if (imageData)
@@ -486,7 +487,7 @@ static const CGFloat topMargin = 5.0f;
     CGSize imageSize = CGSizeZero;
     
     CGSize oriImageSize = CGSizeMake([[self.imageInfoDic objectForKey:@"width"] floatValue], [[self.imageInfoDic objectForKey:@"height"] floatValue]);
-    float newWidth = gifEditCellWidth;
+    float newWidth = getGifEditCellWidth();
     float newHeight = (newWidth * oriImageSize.height) / oriImageSize.width;
     imageSize = CGSizeMake(newWidth, newHeight);
     self.imageSize = imageSize;
@@ -496,7 +497,7 @@ static const CGFloat topMargin = 5.0f;
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
     CGSize superViewSize = self.view.frame.size;;
-    CGFloat lastSpace = (int)(superViewSize.width) % (int)gifEditCellWidth;
+    CGFloat lastSpace = (int)(superViewSize.width) % (int)getGifEditCellWidth();
     CGFloat margin = lastSpace / (self.cloCount + 1);
     self.xMargin = margin;
     return UIEdgeInsetsMake(topMargin, margin, topMargin, margin);

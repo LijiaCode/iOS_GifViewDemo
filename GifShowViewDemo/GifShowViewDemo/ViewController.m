@@ -103,8 +103,21 @@
     if (gifImageData)
     {
         ShowGifImageViewController* showGifViewCrl = [[ShowGifImageViewController alloc] init];
+        
+        CGSize showSize = CGSizeMake(self.view.frame.size.width - 2 * gifShowViewMargin, self.view.frame.size.height - 2 * gifShowViewMargin);
+        CGImageSourceRef src = CGImageSourceCreateWithData((CFDataRef)gifImageData, NULL);
+        if (src)
+        {
+            NSDictionary *properties = (__bridge NSDictionary *)CGImageSourceCopyPropertiesAtIndex(src, 0, NULL);
+            CGFloat width = [[properties valueForKey:(NSString*)kCGImagePropertyPixelWidth] floatValue];
+            CGFloat height = [[properties valueForKey:(NSString*)kCGImagePropertyPixelHeight] floatValue];
+            showSize = [self compressImageWith:CGSizeMake(width, height)];
+            CFRelease((__bridge CFTypeRef)(properties));
+            CFRelease(src);
+        }
+        showGifViewCrl.showViewSize = showSize;
         showGifViewCrl.imageData = gifImageData;
-        [picker dismissViewControllerAnimated:YES completion:^(){}];
+        [picker dismissViewControllerAnimated:NO completion:^(){}];
         [self.navigationController pushViewController:showGifViewCrl animated:YES];
     }
     else
@@ -118,6 +131,28 @@
     }
     
 }
+
+
+- (CGSize)compressImageWith:(CGSize)oriSize
+{
+    CGFloat newWidth = oriSize.width;
+    CGFloat newHeight = oriSize.height;
+    
+    if (oriSize.width > self.view.frame.size.width - 2 * gifShowViewMargin)
+    {
+        newWidth = self.view.frame.size.width - 2 * gifShowViewMargin;
+        newHeight *= (self.view.frame.size.width - 2 * gifShowViewMargin) / oriSize.width;
+    }
+    
+    if (newHeight > self.view.frame.size.height - 2 * gifShowViewMargin)
+    {
+        CGFloat scale = (self.view.frame.size.height - 2 * gifShowViewMargin) / newHeight;
+        newHeight = self.view.frame.size.height - 2 * gifShowViewMargin;
+        newWidth *= scale;
+    }
+    return CGSizeMake(newWidth, newHeight);
+}
+
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {

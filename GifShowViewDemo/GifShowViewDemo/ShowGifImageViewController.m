@@ -20,7 +20,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.view.backgroundColor = [UIColor whiteColor];
     if (!self.isPreview)
     {
         UIBarButtonItem *editBtn = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(enterGIFEditModel:)];
@@ -35,11 +35,13 @@
     UIBarButtonItem* backBtn = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
     [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:backBtn, nil]];
     
-    CGRect frame = CGRectMake(0, self.navigationController.navigationBar.frame.size.height, self.view.frame.size.width, self.view.frame.size.height);
+    CGRect frame = CGRectMake((self.view.frame.size.width - self.showViewSize.width) / 2, (self.view.frame.size.height - self.showViewSize.height) / 2, self.showViewSize.width, self.showViewSize.height);
+    
     self.gifShowView = [[ShowGifImageView alloc] initWithFrame:frame withImage:self.imageData];
     self.gifShowView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.gifShowView];
 }
+
 
 - (void)enterGIFEditModel: (id)sender
 {
@@ -55,6 +57,7 @@
 
 - (void)saveGifImageToLoacl: (id)sender
 {
+    //这个操作
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
         // Request creating an asset from the image.
         PHAssetChangeRequest *createAssetRequest = [PHAssetChangeRequest creationRequestForAssetFromImageAtFileURL:[NSURL URLWithString:self.recentSavePath]];
@@ -66,6 +69,13 @@
         
         [self.navigationController presentViewController:alertCrl animated:YES completion:^(){}];
     }];
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    CGRect frame = CGRectMake((self.view.frame.size.width - self.showViewSize.width) / 2, (self.view.frame.size.height - self.showViewSize.height) / 2, self.showViewSize.width, self.showViewSize.height);
+    self.gifShowView.frame = frame;
 }
 
 - (void)dealloc

@@ -57,9 +57,18 @@
                 width = [[properties valueForKey:(NSString*)kCGImagePropertyPixelWidth] floatValue];
                 height = [[properties valueForKey:(NSString*)kCGImagePropertyPixelHeight] floatValue];
             }
-            NSNumber *delayTime = [frameProperties objectForKey:(NSString *)kCGImagePropertyGIFUnclampedDelayTime];
-            [delayTimes addObject:delayTime];
-            totleTime += [delayTime floatValue];
+            NSNumber *delayTime = [frameProperties objectForKey:(NSString *)kCGImagePropertyGIFDelayTime];
+            if (delayTime) //会存在frameProperties为空的情况，所以在这里加以处理。
+            {
+                [delayTimes addObject:delayTime];
+                totleTime += [delayTime floatValue];
+            }
+            else
+            {
+                [delayTimes addObject:[NSNumber numberWithFloat:0.03]];
+                totleTime += 0.03;
+            }
+            
             if (pngImage)
             {
                 [images addObject:(__bridge id)pngImage];
