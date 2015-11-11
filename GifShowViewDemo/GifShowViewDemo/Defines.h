@@ -33,7 +33,8 @@ typedef NS_ENUM(NSUInteger, GifEditType)
 {
     GifEditDelete = 0,
     GifEditChange,
-    GifEditInsert
+    GifEditInsert,
+    GifEditReverse
 };
 
 typedef NS_ENUM(NSUInteger, UndoRedoType)

@@ -222,7 +222,6 @@ static const CGFloat topMargin = 5.0f;
             newNotify.indexPath = indexPath;
             break;
         }
-        
         case GifEditInsert:
         {
             NSIndexPath* indexPath = editNotify.indexPath;
@@ -235,6 +234,15 @@ static const CGFloat topMargin = 5.0f;
             newNotify.editType = GifEditDelete;
             newNotify.image = oldImage;
             newNotify.indexPath = indexPath;
+            break;
+        }
+        case GifEditReverse:
+        {
+            NSMutableArray* images = [self.imageInfoDic objectForKey:@"images"];
+            images = (NSMutableArray *)[[images reverseObjectEnumerator] allObjects];
+            [self.imageInfoDic setObject:images forKey:@"images"];
+            [self.collectionView reloadData];
+            newNotify.editType = GifEditReverse;
             break;
         }
         default:
@@ -298,7 +306,8 @@ static const CGFloat topMargin = 5.0f;
     else
     {
         UIMenuItem* insertItem = [[UIMenuItem alloc] initWithTitle:@"插入" action:@selector(insertNewImage:)];
-        menu.menuItems = @[insertItem];
+        UIMenuItem* reverseItem = [[UIMenuItem alloc] initWithTitle:@"倒转" action:@selector(reverseImages:)];
+        menu.menuItems = @[insertItem, reverseItem];
     }
     
     [menu setTargetRect:CGRectMake(touchPoint.x, touchPoint.y, 0, 0) inView:self.collectionView];
@@ -316,10 +325,27 @@ static const CGFloat topMargin = 5.0f;
 {
     if(action == @selector(insertNewImage:) ||
        action == @selector(changeSelectedImage:)||
-       action == @selector(deleteSelectedImage:))
+       action == @selector(deleteSelectedImage:) ||
+       action == @selector(reverseImages:))
         return YES;
     else
         return NO;
+}
+
+- (void)reverseImages: (id)sender
+{
+    NSMutableArray* images = [self.imageInfoDic objectForKey:@"images"];
+    images = (NSMutableArray *)[[images reverseObjectEnumerator] allObjects];
+    [self.imageInfoDic setObject:images forKey:@"images"];
+    [self.collectionView reloadData];
+    
+    [self clearRedoStack];
+    GifEditNotify* editNotify = [[GifEditNotify alloc] init];
+    editNotify.editType = GifEditReverse;
+    
+    [self.gifEditUndoStack addObject:editNotify];
+    [self checkUndeRedoState];
+
 }
 
 - (void)insertNewImage: (id)sender
@@ -530,8 +556,10 @@ static const CGFloat topMargin = 5.0f;
     }
     else
     {
+        curSelCell.selected = NO;
         [cell setBackgroundColor:[UIColor yellowColor]];
         self.curSelectedIndexPath = indexPath;
+        cell.selected = YES;
     }
 }
 
