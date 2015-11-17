@@ -135,7 +135,7 @@
 			name = GifEditNotify;
 			sourceTree = "<group>";
 		};
-		2AEADB9E1BE8F6E100996267 /* frameworks */ = {
+		2AEADB9E1BE8F6E100996267 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				2AB4B1B81BDA86EF00885222 /* Photos.framework */,
@@ -144,7 +144,7 @@
 				2A1E4ACD1BD7DA7D00342877 /* ImageIO.framework */,
 				2A1E4ACB1BD7DA2800342877 /* CoreGraphics.framework */,
 			);
-			name = frameworks;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		2AFEB1351BD7715A00D68A33 = {
@@ -180,7 +180,7 @@
 				2AFEB14D1BD7715B00D68A33 /* Assets.xcassets */,
 				2AFEB14F1BD7715B00D68A33 /* LaunchScreen.storyboard */,
 				2AFEB1521BD7715B00D68A33 /* Info.plist */,
-				2AEADB9E1BE8F6E100996267 /* frameworks */,
+				2AEADB9E1BE8F6E100996267 /* Frameworks */,
 				2AFEB1411BD7715B00D68A33 /* Supporting Files */,
 			);
 			path = GifShowViewDemo;

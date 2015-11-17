@@ -11,7 +11,7 @@
 
 @interface GifEditNotify : NSObject
 
-@property(nonatomic, strong)UIImage* image;
+@property(nonatomic, strong)NSMutableArray* operationImages;
 @property(nonatomic, assign)GifEditType editType;
 @property(nonatomic, strong)NSIndexPath* indexPath;
 

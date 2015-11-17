@@ -9,5 +9,12 @@
 #import "GifEditNotify.h"
 
 @implementation GifEditNotify
-
+- (instancetype)init
+{
+    if (self = [super init])
+    {
+        _operationImages = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
 @end

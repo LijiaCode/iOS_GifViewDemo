@@ -201,38 +201,59 @@ static const CGFloat topMargin = 5.0f;
         {
             NSIndexPath* indexPath = editNotify.indexPath;
             UIImage* oldImage = images[indexPath.row];
-            images[indexPath.row] = editNotify.image;
+            images[indexPath.row] = editNotify.operationImages[0];
             [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
             
             newNotify.editType = GifEditChange;
-            newNotify.image = oldImage;
+            [newNotify.operationImages addObject:oldImage];
             newNotify.indexPath = indexPath;
             break;
         }
         case GifEditDelete:
         {
             NSIndexPath* indexPath = editNotify.indexPath;
-            [images insertObject:editNotify.image atIndex:indexPath.row];
+            NSMutableArray* operationImages = editNotify.operationImages;
+            
+            NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(indexPath.row, operationImages.count)];
+            [images insertObjects:operationImages atIndexes:indexes];
             NSUInteger imageCount = [[self.imageInfoDic objectForKey:@"imageCount"] integerValue];
-            [self.imageInfoDic setObject:[NSNumber numberWithInteger:imageCount + 1] forKey:@"imageCount"];
-            [self.collectionView insertItemsAtIndexPaths:@[indexPath]];
+            [self.imageInfoDic setObject:[NSNumber numberWithInteger:imageCount + operationImages.count] forKey:@"imageCount"];
+            
+            NSMutableArray* indexPaths = [[NSMutableArray alloc] init];
+            NSUInteger beginIndex = self.insertIndexPath.row;
+            for (int i = 0; i < operationImages.count; ++i)
+            {
+                NSIndexPath* indexPath = [NSIndexPath indexPathForRow:beginIndex++ inSection:0];
+                [indexPaths addObject:indexPath];
+            }
+
+            [self.collectionView insertItemsAtIndexPaths:indexPaths];
             
             newNotify.editType = GifEditInsert;
-            newNotify.image = images[indexPath.row];
+            newNotify.operationImages = operationImages;
             newNotify.indexPath = indexPath;
             break;
         }
         case GifEditInsert:
         {
             NSIndexPath* indexPath = editNotify.indexPath;
-            UIImage* oldImage = images[indexPath.row];
-            [images removeObjectAtIndex:indexPath.row];
+            NSMutableArray* operationImages = editNotify.operationImages;
+            NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(indexPath.row, operationImages.count)];
+            [images removeObjectsAtIndexes:indexes];
             NSUInteger imageCount = [[self.imageInfoDic objectForKey:@"imageCount"] integerValue];
-            [self.imageInfoDic setObject:[NSNumber numberWithInteger:imageCount - 1] forKey:@"imageCount"];
-            [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+            [self.imageInfoDic setObject:[NSNumber numberWithInteger:imageCount - operationImages.count] forKey:@"imageCount"];
+            NSMutableArray* indexPaths = [[NSMutableArray alloc] init];
+            NSUInteger beginIndex = indexPath.row;
+            for (int i = 0; i < operationImages.count; ++i)
+            {
+                NSIndexPath* indexPathTmp = [NSIndexPath indexPathForRow:beginIndex++ inSection:0];
+                [indexPaths addObject:indexPathTmp];
+            }
+            
+            [self.collectionView deleteItemsAtIndexPaths:indexPaths];
             
             newNotify.editType = GifEditDelete;
-            newNotify.image = oldImage;
+            newNotify.operationImages = operationImages;
             newNotify.indexPath = indexPath;
             break;
         }
@@ -358,9 +379,15 @@ static const CGFloat topMargin = 5.0f;
     [self.navigationController presentViewController: picker animated:YES completion:^(){}];
 }
 
-- (void)insertAfterSelectedImage: (UIImage*)image
+- (void)insertAfterSelectedImage: (NSMutableArray*)operationImages
 {
-    UIImage* newImage = [self redrawImage:image];
+    NSMutableArray* newOperationImages = [[NSMutableArray alloc] init];
+    for (int i = 0; i < operationImages.count; ++i)
+    {
+        UIImage* newImage = [self redrawImage:operationImages[i]];
+        [newOperationImages addObject:newImage];
+    }
+    
     NSMutableArray* images = [self.imageInfoDic objectForKey:@"images"];
     NSUInteger index = 0;
     if (self.insertIndexPath)
@@ -368,19 +395,25 @@ static const CGFloat topMargin = 5.0f;
     else
         index = [[self.imageInfoDic objectForKey:@"imageCount"] integerValue];
     NSUInteger imageCount = [[self.imageInfoDic objectForKey:@"imageCount"] integerValue];
-    [self.imageInfoDic setObject:[NSNumber numberWithInteger:imageCount + 1] forKey:@"imageCount"];
-    [images insertObject:newImage atIndex:index];
+    [self.imageInfoDic setObject:[NSNumber numberWithInteger:imageCount + newOperationImages.count] forKey:@"imageCount"];
+    NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(index, newOperationImages.count)];
+    [images insertObjects:newOperationImages atIndexes:indexes];
     
     if (self.insertIndexPath == nil)
-    {
         self.insertIndexPath = [NSIndexPath indexPathForRow:imageCount inSection:0];
+    NSMutableArray* indexPaths = [[NSMutableArray alloc] init];
+    NSUInteger beginIndex = self.insertIndexPath.row;
+    for (int i = 0; i < newOperationImages.count; ++i)
+    {
+        NSIndexPath* indexPath = [NSIndexPath indexPathForRow:beginIndex++ inSection:0];
+        [indexPaths addObject:indexPath];
     }
-    [self.collectionView insertItemsAtIndexPaths:@[self.insertIndexPath]];
+    [self.collectionView insertItemsAtIndexPaths:indexPaths];
     
     [self clearRedoStack];
     GifEditNotify* editNotify = [[GifEditNotify alloc] init];
     editNotify.editType = GifEditInsert;
-    editNotify.image = newImage;
+    editNotify.operationImages = newOperationImages;
     editNotify.indexPath = self.insertIndexPath;
     
     [self.gifEditUndoStack addObject:editNotify];
@@ -411,7 +444,7 @@ static const CGFloat topMargin = 5.0f;
     [self clearRedoStack];
     GifEditNotify* editNotify = [[GifEditNotify alloc] init];
     editNotify.editType = GifEditChange;
-    editNotify.image = oldImage;
+    [editNotify.operationImages addObject:oldImage];
     editNotify.indexPath = self.curSelectedIndexPath;
     
     [self.gifEditUndoStack addObject:editNotify];
@@ -433,15 +466,37 @@ static const CGFloat topMargin = 5.0f;
         options.version = PHImageRequestOptionsVersionCurrent;
         PHImageManager *imageManager = [PHImageManager defaultManager];
         
-        __block UIImage* image = nil;
+        __block NSData* selImageData = nil;
+        __block BOOL isGifImage = false;
+        
         [imageManager requestImageDataForAsset:asset options:options resultHandler:^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info)
          {
-             image = [UIImage imageWithData:imageData];
+             selImageData = imageData;
+             isGifImage = [dataUTI rangeOfString:@"gif"].location != NSNotFound;
          }];
+        
         if (self.curEditType == GifEditChange)
+        {
+            //不管是gif还是普通图 都用UIImage就可以了。
+            UIImage* image = [UIImage imageWithData:selImageData];
             [self changeAfterSelectedImage:image];
+        }
         else
-            [self insertAfterSelectedImage:image];
+        {
+            NSMutableArray* images = [[NSMutableArray alloc] init];
+            if (isGifImage)
+            {
+                NSMutableDictionary* imageInfo = [[GifImageGenerater shareInstance] getGifImageInfoWith:selImageData];
+                images = [imageInfo objectForKey:@"images"];
+            }
+            else
+            {
+                UIImage* image = [UIImage imageWithData:selImageData];
+                [images addObject:image];
+            }
+            
+            [self insertAfterSelectedImage:images];
+        }
     }
     else
     {
@@ -479,7 +534,7 @@ static const CGFloat topMargin = 5.0f;
         [self clearRedoStack];
         GifEditNotify* editNotify = [[GifEditNotify alloc] init];
         editNotify.editType = GifEditDelete;
-        editNotify.image = oldImage;
+        [editNotify.operationImages addObject:oldImage];
         editNotify.indexPath = self.curSelectedIndexPath;
         
         [self.gifEditUndoStack addObject:editNotify];
