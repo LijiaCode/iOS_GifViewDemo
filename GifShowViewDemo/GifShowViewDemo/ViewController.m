@@ -11,12 +11,13 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "ShowGifImageViewController.h"
 #import <Photos/Photos.h>
+#import "GifEditCollectionViewController.h"
 
 
 @interface ViewController ()
-@property(nonatomic, strong)UIButton* choiceBtn;
-@property(nonatomic, strong)UIButton* createBtn;
-@property(nonatomic, strong)UIButton* videoCvtBtn;
+@property(nonatomic, weak)UIButton* choiceBtn;
+@property(nonatomic, weak)UIButton* createBtn;
+@property(nonatomic, weak)UIButton* videoCvtBtn;
 @end
 
 @implementation ViewController
@@ -24,7 +25,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.choiceBtn = [[UIButton alloc] init];
+    UIButton* choiceBtn = [[UIButton alloc] init];
+    self.choiceBtn = choiceBtn;
     self.choiceBtn.tag = choiceOperationTag;
     [self.choiceBtn setTitle:(NSString*)choiceImageTitle forState:UIControlStateNormal];
     self.choiceBtn.backgroundColor = [UIColor whiteColor];
@@ -32,14 +34,17 @@
     [self.choiceBtn addTarget:self action:@selector(choiceGIFImageTarget:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.choiceBtn];
     
-    self.createBtn = [[UIButton alloc] init];
+    UIButton* createBtn = [[UIButton alloc] init];
+    self.createBtn = createBtn;
     self.createBtn.tag = createOperationTag;
     [self.createBtn setTitle:(NSString*)createGifImageTitle forState:UIControlStateNormal];
     self.createBtn.backgroundColor = [UIColor whiteColor];
     [self.createBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.createBtn addTarget:self action:@selector(createNewGifImageTarget:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.createBtn];
     
-    self.videoCvtBtn = [[UIButton alloc] init];
+    UIButton* videoCvtBtn = [[UIButton alloc] init];
+    self.videoCvtBtn = videoCvtBtn;
     self.videoCvtBtn.tag = vedioCvtOperationTag;
     [self.videoCvtBtn setTitle:(NSString*)vedioCvtGifTitle forState:UIControlStateNormal];
     self.videoCvtBtn.backgroundColor = [UIColor whiteColor];
@@ -111,7 +116,7 @@
             NSDictionary *properties = (__bridge NSDictionary *)CGImageSourceCopyPropertiesAtIndex(src, 0, NULL);
             CGFloat width = [[properties valueForKey:(NSString*)kCGImagePropertyPixelWidth] floatValue];
             CGFloat height = [[properties valueForKey:(NSString*)kCGImagePropertyPixelHeight] floatValue];
-            showSize = [self compressImageWith:CGSizeMake(width, height)];
+            showSize = compressImageWith(self.view.frame.size, CGSizeMake(width, height));
             CFRelease((__bridge CFTypeRef)(properties));
             CFRelease(src);
         }
@@ -132,25 +137,11 @@
     
 }
 
-
-- (CGSize)compressImageWith:(CGSize)oriSize
+- (void)createNewGifImageTarget: (id)sender
 {
-    CGFloat newWidth = oriSize.width;
-    CGFloat newHeight = oriSize.height;
-    
-    if (oriSize.width > self.view.frame.size.width - 2 * gifShowViewMargin)
-    {
-        newWidth = self.view.frame.size.width - 2 * gifShowViewMargin;
-        newHeight *= (self.view.frame.size.width - 2 * gifShowViewMargin) / oriSize.width;
-    }
-    
-    if (newHeight > self.view.frame.size.height - 2 * gifShowViewMargin)
-    {
-        CGFloat scale = (self.view.frame.size.height - 2 * gifShowViewMargin) / newHeight;
-        newHeight = self.view.frame.size.height - 2 * gifShowViewMargin;
-        newWidth *= scale;
-    }
-    return CGSizeMake(newWidth, newHeight);
+    UICollectionViewFlowLayout* layout = [[UICollectionViewFlowLayout alloc] init];
+    GifEditCollectionViewController* gifEditViewCrl = [[GifEditCollectionViewController alloc] initWithCollectionViewLayout:layout];
+    [self.navigationController pushViewController:gifEditViewCrl animated:YES];
 }
 
 

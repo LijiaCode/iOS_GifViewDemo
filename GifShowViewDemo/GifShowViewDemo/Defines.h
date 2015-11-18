@@ -28,6 +28,7 @@ CGFloat getGifEditCellWidth();
 NSString* getCurGifFileName();
 NSString* getCurrentTimeString();
 NSString* getTmpGifPath();
+CGSize compressImageWith(CGSize showMaxSize, CGSize oriSize);
 
 typedef NS_ENUM(NSUInteger, GifEditType)
 {

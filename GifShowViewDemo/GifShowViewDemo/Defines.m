@@ -47,3 +47,24 @@ NSString* getCurrentTimeString()
     NSString *  locationString=[dateformatter stringFromDate:curDate];
     return locationString;
 }
+
+CGSize compressImageWith(CGSize showMaxSize, CGSize oriSize)
+{
+    CGFloat newWidth = oriSize.width;
+    CGFloat newHeight = oriSize.height;
+    
+    if (oriSize.width > showMaxSize.width - 2 * gifShowViewMargin)
+    {
+        newWidth = showMaxSize.width - 2 * gifShowViewMargin;
+        newHeight *= (showMaxSize.width - 2 * gifShowViewMargin) / oriSize.width;
+    }
+    
+    if (newHeight > showMaxSize.height - 2 * gifShowViewMargin)
+    {
+        CGFloat scale = (showMaxSize.height - 2 * gifShowViewMargin) / newHeight;
+        newHeight = showMaxSize.height - 2 * gifShowViewMargin;
+        newWidth *= scale;
+    }
+    return CGSizeMake(newWidth, newHeight);
+}
+

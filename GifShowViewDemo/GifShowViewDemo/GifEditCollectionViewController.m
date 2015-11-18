@@ -7,16 +7,22 @@
 //
 
 #import "GifEditCollectionViewController.h"
-#import "GifEditCollectionViewFlowLayout.h"
 #import "GifImageGenerater.h"
-#import "GifEditCollectionViewCell.h"
 #import "ShowGifImageViewController.h"
 #import <Photos/Photos.h>
 #import "GifEditNotify.h"
 
+static const CGFloat defDelayTime = .12f;
 
 @interface GifEditCollectionViewController ()
-
+/*
+@"images",
+@"imageCount",
+@"delayTime",
+@"loopCount",
+@"width",
+@"height",
+ */
 @property(nonatomic, strong)NSMutableDictionary* imageInfoDic;//gif 相关信息
 @property(nonatomic, assign)NSUInteger cloCount; //每列个数
 @property(nonatomic, assign)CGFloat xMargin; //每列x间距
@@ -39,16 +45,36 @@
 static NSString * const reuseIdentifier = @"Cell";
 static const CGFloat topMargin = 5.0f;
 
--(instancetype)initWithImageData: (NSData*)imageData withCollectionViewLayout: (UICollectionViewLayout*)layout
+- (instancetype)initWithImageData: (NSData*)imageData withCollectionViewLayout: (UICollectionViewLayout*)layout
 {
     if (self = [super initWithCollectionViewLayout:layout])
     {
-       [self initWithData:imageData];
+       [self initImageInfoWithData:imageData];
     }
     return self;
 }
 
-- (void)initWithData: (NSData*)imageData
+- (instancetype)initWithCollectionViewLayout:(UICollectionViewLayout *)layout
+{
+    if (self = [super initWithCollectionViewLayout:layout])
+    {
+        [self initNewGifImageInfo];
+    }
+    return self;
+}
+
+- (void)initNewGifImageInfo
+{
+    self.isNewGifImage = YES;
+    self.imageInfoDic = [[NSMutableDictionary alloc] init];
+    NSMutableArray* images = [[NSMutableArray alloc] init];
+    [self.imageInfoDic setObject:images forKey:@"images"];
+    [self.imageInfoDic setObject:[NSNumber numberWithInt:0] forKey:@"imageCount"];
+    [self.imageInfoDic setObject:[NSNumber numberWithFloat:defDelayTime] forKey:@"delayTime"];
+    [self.imageInfoDic setObject:[NSNumber numberWithInt:0] forKey:@"loopCount"];
+}
+
+- (void)initImageInfoWithData: (NSData*)imageData
 {
     self.imageInfoDic = [[GifImageGenerater shareInstance] getGifImageInfoWith:imageData];
 }
@@ -74,7 +100,7 @@ static const CGFloat topMargin = 5.0f;
     
     self.cloCount = (int)(self.view.frame.size.width) / (int)getGifEditCellWidth();
     
-    GifEditCollectionViewFlowLayout* layout = [[GifEditCollectionViewFlowLayout alloc] init];
+    UICollectionViewFlowLayout* layout = [[UICollectionViewFlowLayout alloc] init];
     self.collectionView.collectionViewLayout = layout;
     self.gifEditUndoStack = [[NSMutableArray alloc] init];
     self.gifEditRedoStack = [[NSMutableArray alloc] init];
@@ -162,6 +188,14 @@ static const CGFloat topMargin = 5.0f;
 {
     CGFloat width = [[self.imageInfoDic objectForKey:@"width"] floatValue];
     CGFloat height = [[self.imageInfoDic objectForKey:@"height"] floatValue];
+    if (width == 0 || height == 0)
+    {
+        CGSize showSize = compressImageWith(self.view.frame.size, inputImage.size);
+        width = showSize.width;
+        height = showSize.height;
+        [self.imageInfoDic setObject:[NSNumber numberWithFloat:width] forKey:@"width"];
+        [self.imageInfoDic setObject:[NSNumber numberWithFloat:height] forKey:@"height"];
+    }
     
     CGSize newSize = CGSizeMake(width, height);
     UIGraphicsBeginImageContext(newSize);
@@ -220,7 +254,7 @@ static const CGFloat topMargin = 5.0f;
             [self.imageInfoDic setObject:[NSNumber numberWithInteger:imageCount + operationImages.count] forKey:@"imageCount"];
             
             NSMutableArray* indexPaths = [[NSMutableArray alloc] init];
-            NSUInteger beginIndex = self.insertIndexPath.row;
+            NSUInteger beginIndex = indexPath.row;
             for (int i = 0; i < operationImages.count; ++i)
             {
                 NSIndexPath* indexPath = [NSIndexPath indexPathForRow:beginIndex++ inSection:0];
@@ -385,7 +419,8 @@ static const CGFloat topMargin = 5.0f;
     for (int i = 0; i < operationImages.count; ++i)
     {
         UIImage* newImage = [self redrawImage:operationImages[i]];
-        [newOperationImages addObject:newImage];
+        if (newImage)
+            [newOperationImages addObject:newImage];
     }
     
     NSMutableArray* images = [self.imageInfoDic objectForKey:@"images"];
@@ -555,27 +590,45 @@ static const CGFloat topMargin = 5.0f;
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [[self.imageInfoDic objectForKey:@"imageCount"] intValue];
+    return [[self.imageInfoDic objectForKey:@"imageCount"] intValue] + (self.isNewGifImage ? 1 : 0);
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSUInteger imageCount = [[self.imageInfoDic objectForKey:@"imageCount"] integerValue];
     GifEditCollectionViewCell *cell = (GifEditCollectionViewCell*)[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    NSArray* images = [self.imageInfoDic objectForKey:@"images"];
-    UIImage* showImage = images[indexPath.section * self.cloCount + indexPath.row];
-    cell.showImage = showImage;
+    if (self.isNewGifImage && (imageCount == indexPath.row))
+    {
+        cell.isAddImageBtn = YES;
+        cell.delegate = self;
+    }
+    else
+    {
+        cell.isAddImageBtn = NO;
+        NSArray* images = [self.imageInfoDic objectForKey:@"images"];
+        UIImage* showImage = images[indexPath.section * self.cloCount + indexPath.row];
+        cell.showImage = showImage;
+    }
     return cell;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CGSize imageSize = CGSizeZero;
-    
-    CGSize oriImageSize = CGSizeMake([[self.imageInfoDic objectForKey:@"width"] floatValue], [[self.imageInfoDic objectForKey:@"height"] floatValue]);
-    float newWidth = getGifEditCellWidth();
-    float newHeight = (newWidth * oriImageSize.height) / oriImageSize.width;
-    imageSize = CGSizeMake(newWidth, newHeight);
-    self.imageSize = imageSize;
+    NSUInteger imageCount = [[self.imageInfoDic objectForKey:@"imageCount"] integerValue];
+    if (self.isNewGifImage && imageCount == 0)
+    {
+        float newWidth = getGifEditCellWidth();
+        imageSize = CGSizeMake(newWidth, newWidth);
+    }
+    else
+    {
+        CGSize oriImageSize = CGSizeMake([[self.imageInfoDic objectForKey:@"width"] floatValue], [[self.imageInfoDic objectForKey:@"height"] floatValue]);
+        float newWidth = getGifEditCellWidth();
+        float newHeight = (newWidth * oriImageSize.height) / oriImageSize.width;
+        imageSize = CGSizeMake(newWidth, newHeight);
+        self.imageSize = imageSize;
+    }
     return imageSize;
 }
 
@@ -618,4 +671,11 @@ static const CGFloat topMargin = 5.0f;
     }
 }
 
+#pragma mark <GifEditAddImageDelegate>
+- (void)addPictureToNewGifImage
+{
+    NSUInteger imageCount = [[self.imageInfoDic objectForKey:@"imageCount"] integerValue];
+    self.insertIndexPath = [NSIndexPath indexPathForRow:imageCount inSection:0];
+    [self insertNewImage:nil];
+}
 @end

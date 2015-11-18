@@ -15,35 +15,50 @@ static const CGFloat imageMargin = 4.0f;
 @end
 
 @implementation GifEditCollectionViewCell
-- (instancetype)init
-{
-    if (self = [super init])
-    {
-        self.showImageView = [[UIImageView alloc] init];
-        self.showImageView.backgroundColor = [UIColor whiteColor];
-        [self addSubview:self.showImageView];
-    }
-    return self;
-}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame])
     {
-        self.showImageView = [[UIImageView alloc] init];
-        self.showImageView.backgroundColor = [UIColor whiteColor];
-        [self addSubview:self.showImageView];
-        self.backgroundColor = [UIColor whiteColor];
+        
     }
     return self;
 }
 
+- (void)initAddPictureBtn
+{
+    UIButton* btn = [[UIButton alloc] init];
+    btn.frame = CGRectMake(imageMargin, imageMargin, self.frame.size.width - 2 * imageMargin, self.frame.size.height - 2 * imageMargin);
+    [btn setTitle:@"AddPicture" forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    btn.backgroundColor = [UIColor greenColor];
+    [btn addTarget:self action:@selector(addNewPcitrueToGifImage) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:btn];
+}
+
+- (void)addNewPcitrueToGifImage
+{
+    [self.delegate addPictureToNewGifImage];
+}
+
+- (void)setIsAddImageBtn:(BOOL)isAddImageBtn
+{
+    if (isAddImageBtn)
+        [self initAddPictureBtn];
+    _isAddImageBtn = isAddImageBtn;
+}
 
 - (void)setShowImage:(UIImage *)showImage
 {
-    _showImage = showImage;
-    self.showImageView.image = showImage;
-    [self compressImage:getGifEditCellWidth() image:_showImage];
+    if (!self.isAddImageBtn)
+    {
+        self.showImageView = [[UIImageView alloc] init];
+        self.showImageView.backgroundColor = [UIColor whiteColor];
+        [self addSubview:self.showImageView];
+        _showImage = showImage;
+        self.showImageView.image = showImage;
+        [self compressImage:getGifEditCellWidth() image:_showImage];
+    }
 }
 
 - (void)compressImage:(float)width image: (UIImage*)image

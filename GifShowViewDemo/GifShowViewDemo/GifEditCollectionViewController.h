@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GifEditCollectionViewCell.h"
 
-@interface GifEditCollectionViewController : UICollectionViewController<UIGestureRecognizerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface GifEditCollectionViewController : UICollectionViewController<UIGestureRecognizerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, GifEditAddImageDelegate>
+
+@property(nonatomic, assign)BOOL isNewGifImage;
 -(instancetype)initWithImageData: (NSData*)imageData withCollectionViewLayout: (UICollectionViewLayout*)layout;
 @end
