@@ -135,6 +135,13 @@
 			name = GifEditNotify;
 			sourceTree = "<group>";
 		};
+		2AE065211C07463A00310123 /* VideoShow */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = VideoShow;
+			sourceTree = "<group>";
+		};
 		2AEADB9E1BE8F6E100996267 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -166,6 +173,7 @@
 		2AFEB1401BD7715B00D68A33 /* GifShowViewDemo */ = {
 			isa = PBXGroup;
 			children = (
+				2AE065211C07463A00310123 /* VideoShow */,
 				2A3B158B1BDE79C700020A47 /* GifEdit */,
 				2A3B158A1BDE79B200020A47 /* GifShow */,
 				2AB4B1AE1BDA688B00885222 /* GifBulider */,

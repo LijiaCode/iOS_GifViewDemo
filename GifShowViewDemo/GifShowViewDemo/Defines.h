@@ -24,6 +24,7 @@ static const NSString* choiceImageTitle = @"选择图片";
 static const NSString* createGifImageTitle = @"创建GIF图";
 static const NSString* vedioCvtGifTitle = @"视频转GIF";
 
+bool isPhone();
 CGFloat getGifEditCellWidth();
 NSString* getCurGifFileName();
 NSString* getCurrentTimeString();

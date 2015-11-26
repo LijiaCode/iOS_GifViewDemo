@@ -18,6 +18,7 @@
 @property(nonatomic, weak)UIButton* choiceBtn;
 @property(nonatomic, weak)UIButton* createBtn;
 @property(nonatomic, weak)UIButton* videoCvtBtn;
+@property(nonatomic, assign)BOOL isVedioModel;
 @end
 
 @implementation ViewController
@@ -50,6 +51,7 @@
     self.videoCvtBtn.backgroundColor = [UIColor whiteColor];
     [self.videoCvtBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.view addSubview:self.videoCvtBtn];
+    [self.videoCvtBtn addTarget:self action:@selector(selectVedioOrCamera:) forControlEvents:UIControlEventTouchUpInside];
     
     [self setShowBtnFrame];
 }
@@ -72,6 +74,7 @@
 - (void)choiceGIFImageTarget: (UIButton*)sender
 {
     //从相册中选择gif图片。
+    self.isVedioModel = NO;
     UIImagePickerController* picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate = self;
@@ -79,14 +82,12 @@
     [self.navigationController presentViewController: picker animated:YES completion:^(){}];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+- (void)imageModeDidFinishPickingMedia:(UIImagePickerController *)picker withInfo: (NSDictionary<NSString *,id> *)info
 {
-    //格式要求gif 弹提示框
     NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
     __block NSData* gifImageData = NULL;
     if ([type isEqualToString:@"public.image"])
     {
-        
         NSString* imageReferenceURL = [info objectForKey:UIImagePickerControllerReferenceURL];
         
         PHAsset* asset = [[PHAsset fetchAssetsWithALAssetURLs:@[imageReferenceURL] options:nil] lastObject];
@@ -134,19 +135,89 @@
         
         [self.navigationController presentViewController:alertCrl animated:YES completion:^(){}];
     }
+
+}
+
+- (void)videoModeDidFinishPickingMedia:(UIImagePickerController *)picker withInfo: (NSDictionary<NSString *,id> *)info
+{
+    NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
+    NSString* mediaUrl = nil;
+    if([type isEqualToString:(NSString *)kUTTypeMovie])
+    {
+        mediaUrl = [info objectForKey:UIImagePickerControllerMediaURL];
+    }
     
+    if (mediaUrl)
+    {
+        //todo
+    }
+    else
+    {
+        UIAlertController* alertCrl = [UIAlertController alertControllerWithTitle:@"提示" message:@"格式错误" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+        [alertCrl addAction:cancelAction];
+        [picker dismissViewControllerAnimated:YES completion:^(){}];
+        
+        [self.navigationController presentViewController:alertCrl animated:YES completion:^(){}];
+
+    }
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+{
+    //格式要求gif 弹提示框
+    if (self.isVedioModel)
+        [self videoModeDidFinishPickingMedia:picker withInfo:info];
+    else
+        [self imageModeDidFinishPickingMedia:picker withInfo:info];
 }
 
 - (void)createNewGifImageTarget: (id)sender
 {
+    self.isVedioModel = NO;
     UICollectionViewFlowLayout* layout = [[UICollectionViewFlowLayout alloc] init];
     GifEditCollectionViewController* gifEditViewCrl = [[GifEditCollectionViewController alloc] initWithCollectionViewLayout:layout];
     [self.navigationController pushViewController:gifEditViewCrl animated:YES];
 }
 
+- (void)selectVedioOrCamera: (id)sender
+{
+    self.isVedioModel = YES;
+    UIAlertControllerStyle style = isPhone() ? UIAlertControllerStyleActionSheet :UIAlertControllerStyleAlert;
+    UIAlertController* alertCrl = [UIAlertController alertControllerWithTitle:@"" message:@"" preferredStyle:style];
+    UIAlertAction* cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction* photoLibrary = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
+        [self showVideoImagePickerController:UIImagePickerControllerSourceTypePhotoLibrary];
+    }];
+    UIAlertAction* camera = [UIAlertAction actionWithTitle:@"拍摄" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
+        [self showVideoImagePickerController:UIImagePickerControllerSourceTypeCamera];
+    }];
+    
+    [alertCrl addAction:photoLibrary];
+    [alertCrl addAction:camera];
+    [alertCrl addAction:cancle];
+    
+    [self presentViewController:alertCrl animated:YES completion:nil];
+}
+
+- (void)showVideoImagePickerController: (UIImagePickerControllerSourceType)sourceType
+{
+    UIImagePickerController* picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = sourceType;
+    if (sourceType == UIImagePickerControllerSourceTypeCamera)
+    {
+        picker.mediaTypes = @[(NSString *)kUTTypeMovie];
+        picker.videoQuality = UIImagePickerControllerQualityTypeIFrame1280x720;
+        picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
+    }
+    picker.delegate = self;
+    picker.allowsEditing = YES;
+    [self.navigationController presentViewController: picker animated:YES completion:^(){}];
+}
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
+    self.isVedioModel = NO;
     [self dismissViewControllerAnimated:YES completion:^(){}];
 }
 

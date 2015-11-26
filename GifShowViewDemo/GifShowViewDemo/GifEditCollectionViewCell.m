@@ -54,7 +54,8 @@ static const CGFloat imageMargin = 4.0f;
     {
         self.showImageView = [[UIImageView alloc] init];
         self.showImageView.backgroundColor = [UIColor whiteColor];
-        [self addSubview:self.showImageView];
+        [self.contentView addSubview:self.showImageView];
+        self.backgroundView.backgroundColor = [UIColor redColor];
         _showImage = showImage;
         self.showImageView.image = showImage;
         [self compressImage:getGifEditCellWidth() image:_showImage];

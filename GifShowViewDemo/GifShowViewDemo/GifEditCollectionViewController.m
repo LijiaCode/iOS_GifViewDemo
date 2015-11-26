@@ -665,7 +665,7 @@ static const CGFloat topMargin = 5.0f;
     else
     {
         curSelCell.selected = NO;
-        [cell setBackgroundColor:[UIColor yellowColor]];
+        cell.backgroundView.backgroundColor = [UIColor yellowColor];
         self.curSelectedIndexPath = indexPath;
         cell.selected = YES;
     }
