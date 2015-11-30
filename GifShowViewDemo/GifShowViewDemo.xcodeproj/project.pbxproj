@@ -17,6 +17,7 @@
 		2AB4B1B51BDA82B000885222 /* ShowGifImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AB4B1B41BDA82B000885222 /* ShowGifImageViewController.m */; };
 		2AB4B1B91BDA86EF00885222 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AB4B1B81BDA86EF00885222 /* Photos.framework */; };
 		2AC215E61BE79DFD00C7ACDE /* GifEditNotify.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AC215E51BE79DFD00C7ACDE /* GifEditNotify.m */; };
+		2ACC727F1C09436E004F7D0F /* VideoPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ACC727E1C09436E004F7D0F /* VideoPlayerViewController.m */; };
 		2AF9F3151BDFB64E00AAAFB3 /* GifEditCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF9F3141BDFB64E00AAAFB3 /* GifEditCollectionViewController.m */; };
 		2AF9F3181BDFB79B00AAAFB3 /* GifEditCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF9F3171BDFB79B00AAAFB3 /* GifEditCollectionViewFlowLayout.m */; };
 		2AF9F3421BDFB7D200AAAFB3 /* GifEditCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF9F3411BDFB7D200AAAFB3 /* GifEditCollectionViewCell.m */; };
@@ -47,6 +48,8 @@
 		2AB4B1B81BDA86EF00885222 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		2AC215E41BE79DFD00C7ACDE /* GifEditNotify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifEditNotify.h; sourceTree = "<group>"; };
 		2AC215E51BE79DFD00C7ACDE /* GifEditNotify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GifEditNotify.m; sourceTree = "<group>"; };
+		2ACC727D1C09436E004F7D0F /* VideoPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayerViewController.h; sourceTree = "<group>"; };
+		2ACC727E1C09436E004F7D0F /* VideoPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoPlayerViewController.m; sourceTree = "<group>"; };
 		2AF9F3131BDFB64E00AAAFB3 /* GifEditCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifEditCollectionViewController.h; sourceTree = "<group>"; };
 		2AF9F3141BDFB64E00AAAFB3 /* GifEditCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GifEditCollectionViewController.m; sourceTree = "<group>"; };
 		2AF9F3161BDFB79B00AAAFB3 /* GifEditCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifEditCollectionViewFlowLayout.h; sourceTree = "<group>"; };
@@ -71,8 +74,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2AB4B1B91BDA86EF00885222 /* Photos.framework in Frameworks */,
 				2A1B108C1BD9082D009B9EB9 /* AVFoundation.framework in Frameworks */,
+				2AB4B1B91BDA86EF00885222 /* Photos.framework in Frameworks */,
 				2A1B10871BD8FC5C009B9EB9 /* MobileCoreServices.framework in Frameworks */,
 				2A1E4ACE1BD7DA7D00342877 /* ImageIO.framework in Frameworks */,
 				2A1E4ACC1BD7DA2800342877 /* CoreGraphics.framework in Frameworks */,
@@ -138,6 +141,8 @@
 		2AE065211C07463A00310123 /* VideoShow */ = {
 			isa = PBXGroup;
 			children = (
+				2ACC727D1C09436E004F7D0F /* VideoPlayerViewController.h */,
+				2ACC727E1C09436E004F7D0F /* VideoPlayerViewController.m */,
 			);
 			name = VideoShow;
 			sourceTree = "<group>";
@@ -275,6 +280,7 @@
 				2A1B108A1BD905AB009B9EB9 /* VideoToGIFConverter.m in Sources */,
 				2AFEB1491BD7715B00D68A33 /* ViewController.m in Sources */,
 				2AFEB1461BD7715B00D68A33 /* AppDelegate.m in Sources */,
+				2ACC727F1C09436E004F7D0F /* VideoPlayerViewController.m in Sources */,
 				2AF9F3181BDFB79B00AAAFB3 /* GifEditCollectionViewFlowLayout.m in Sources */,
 				2A1E4ACA1BD7D6FE00342877 /* ShowGifImageView.m in Sources */,
 				2AF9F3151BDFB64E00AAAFB3 /* GifEditCollectionViewController.m in Sources */,

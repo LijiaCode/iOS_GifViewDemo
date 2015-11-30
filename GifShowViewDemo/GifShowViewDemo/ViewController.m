@@ -12,6 +12,7 @@
 #import "ShowGifImageViewController.h"
 #import <Photos/Photos.h>
 #import "GifEditCollectionViewController.h"
+#import "VideoPlayerViewController.h"
 
 
 @interface ViewController ()
@@ -141,7 +142,7 @@
 - (void)videoModeDidFinishPickingMedia:(UIImagePickerController *)picker withInfo: (NSDictionary<NSString *,id> *)info
 {
     NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
-    NSString* mediaUrl = nil;
+    NSURL* mediaUrl = nil;
     if([type isEqualToString:(NSString *)kUTTypeMovie])
     {
         mediaUrl = [info objectForKey:UIImagePickerControllerMediaURL];
@@ -149,7 +150,18 @@
     
     if (mediaUrl)
     {
-        //todo
+        
+        [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+            // Create a change request from the asset to be modified.
+            __unused PHAssetChangeRequest *request = [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:mediaUrl];
+        } completionHandler:^(BOOL success, NSError *error) {
+            NSLog(@"Finished updating asset. %@", (success ? @"Success." : error));
+        }];
+        
+        VideoPlayerViewController* videoPlayerCrl = [[VideoPlayerViewController alloc] init];
+        videoPlayerCrl.videoURL = mediaUrl;
+        [picker dismissViewControllerAnimated:YES completion:^(){}];
+        [self.navigationController pushViewController:videoPlayerCrl animated:YES];
     }
     else
     {
@@ -187,7 +199,7 @@
     UIAlertController* alertCrl = [UIAlertController alertControllerWithTitle:@"" message:@"" preferredStyle:style];
     UIAlertAction* cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction* photoLibrary = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
-        [self showVideoImagePickerController:UIImagePickerControllerSourceTypePhotoLibrary];
+        [self showVideoImagePickerController:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
     }];
     UIAlertAction* camera = [UIAlertAction actionWithTitle:@"拍摄" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action){
         [self showVideoImagePickerController:UIImagePickerControllerSourceTypeCamera];
@@ -204,12 +216,13 @@
 {
     UIImagePickerController* picker = [[UIImagePickerController alloc] init];
     picker.sourceType = sourceType;
+    picker.mediaTypes = @[(NSString *)kUTTypeMovie, (NSString*)kUTTypeVideo];
     if (sourceType == UIImagePickerControllerSourceTypeCamera)
     {
-        picker.mediaTypes = @[(NSString *)kUTTypeMovie];
         picker.videoQuality = UIImagePickerControllerQualityTypeIFrame1280x720;
         picker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
     }
+   
     picker.delegate = self;
     picker.allowsEditing = YES;
     [self.navigationController presentViewController: picker animated:YES completion:^(){}];

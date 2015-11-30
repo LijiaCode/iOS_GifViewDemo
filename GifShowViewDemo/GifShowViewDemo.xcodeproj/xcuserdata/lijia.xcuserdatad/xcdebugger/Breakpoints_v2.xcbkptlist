@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GifShowViewDemo/GifEditCollectionViewController.m"
-            timestampString = "469546955.079159"
+            timestampString = "470578908.417369"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "638"
-            endingLineNumber = "638"
+            startingLineNumber = "637"
+            endingLineNumber = "637"
             landmarkName = "-collectionView:layout:insetForSectionAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
@@ -105,11 +105,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GifShowViewDemo/GifEditCollectionViewController.m"
-            timestampString = "469545457.378013"
+            timestampString = "470578908.417369"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
             landmarkName = "-undoRedo:"
             landmarkType = "5">
          </BreakpointContent>
@@ -121,11 +121,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GifShowViewDemo/GifEditCollectionViewController.m"
-            timestampString = "469546955.079159"
+            timestampString = "470578908.417369"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "668"
-            endingLineNumber = "668"
+            startingLineNumber = "667"
+            endingLineNumber = "667"
             landmarkName = "-collectionView:didSelectItemAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -137,11 +137,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GifShowViewDemo/GifEditCollectionViewController.m"
-            timestampString = "469545457.378013"
+            timestampString = "470578908.417369"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "296"
-            endingLineNumber = "296"
+            startingLineNumber = "295"
+            endingLineNumber = "295"
             landmarkName = "-undoRedo:"
             landmarkType = "5">
          </BreakpointContent>
@@ -153,11 +153,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GifShowViewDemo/GifEditCollectionViewController.m"
-            timestampString = "469545457.378013"
+            timestampString = "470578908.417369"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "408"
-            endingLineNumber = "408"
+            startingLineNumber = "407"
+            endingLineNumber = "407"
             landmarkName = "-insertNewImage:"
             landmarkType = "5">
          </BreakpointContent>
@@ -217,11 +217,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GifShowViewDemo/GifEditCollectionViewController.m"
-            timestampString = "469546955.079159"
+            timestampString = "470578908.417369"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "617"
-            endingLineNumber = "617"
+            startingLineNumber = "616"
+            endingLineNumber = "616"
             landmarkName = "-collectionView:layout:sizeForItemAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -233,28 +233,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GifShowViewDemo/GifEditCollectionViewController.m"
-            timestampString = "469546780.312126"
+            timestampString = "470578908.417369"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "598"
-            endingLineNumber = "598"
+            startingLineNumber = "597"
+            endingLineNumber = "597"
             landmarkName = "-collectionView:cellForItemAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GifShowViewDemo/ViewController.m"
-            timestampString = "470239145.475173"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
-            landmarkName = "-videoModeDidFinishPickingMedia:withInfo:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
