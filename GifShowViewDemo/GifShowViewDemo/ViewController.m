@@ -20,6 +20,7 @@
 @property(nonatomic, weak)UIButton* createBtn;
 @property(nonatomic, weak)UIButton* videoCvtBtn;
 @property(nonatomic, assign)BOOL isVedioModel;
+@property(nonatomic, assign)BOOL isCameraModel;
 @end
 
 @implementation ViewController
@@ -65,6 +66,13 @@
     
     self.videoCvtBtn.frame = CGRectMake(self.view.center.x - gifOperationBtnWidth / 2, self.view.center.y + (gifOperationBtnHeight / 2 + gifOperationBtnMargin), gifOperationBtnWidth, gifOperationBtnHeight);
 }
+
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    [self setShowBtnFrame];
+}
+
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
@@ -150,14 +158,15 @@
     
     if (mediaUrl)
     {
-        
-        [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-            // Create a change request from the asset to be modified.
-            __unused PHAssetChangeRequest *request = [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:mediaUrl];
-        } completionHandler:^(BOOL success, NSError *error) {
-            NSLog(@"Finished updating asset. %@", (success ? @"Success." : error));
-        }];
-        
+        if (self.isCameraModel)
+        {
+            [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+                // Create a change request from the asset to be modified.
+                __unused PHAssetChangeRequest *request = [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:mediaUrl];
+            } completionHandler:^(BOOL success, NSError *error) {
+                NSLog(@"Finished updating asset. %@", (success ? @"Success." : error));
+            }];
+        }
         VideoPlayerViewController* videoPlayerCrl = [[VideoPlayerViewController alloc] init];
         videoPlayerCrl.videoURL = mediaUrl;
         [picker dismissViewControllerAnimated:YES completion:^(){}];
@@ -214,6 +223,7 @@
 
 - (void)showVideoImagePickerController: (UIImagePickerControllerSourceType)sourceType
 {
+    self.isCameraModel = sourceType == UIImagePickerControllerSourceTypeCamera;
     UIImagePickerController* picker = [[UIImagePickerController alloc] init];
     picker.sourceType = sourceType;
     picker.mediaTypes = @[(NSString *)kUTTypeMovie, (NSString*)kUTTypeVideo];

@@ -31,6 +31,7 @@ static const CGFloat btnMargin = 20.f;
 @property(nonatomic, weak)UIButton* endTimeBtn;
 @property(nonatomic, weak)UIButton* convertBtn;
 
+@property(nonatomic, copy)NSString* totalTimeStr;
 @end
 
 @implementation VideoPlayerViewController
@@ -40,11 +41,24 @@ static const CGFloat btnMargin = 20.f;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.totalTimeStr = nil;
     self.view.backgroundColor = [UIColor whiteColor];
     [self initShowViews];
     [self initPlayer];
     
     [self.player play];
+    
+    AVURLAsset* audioAsset =[AVURLAsset URLAssetWithURL:self.videoURL options:nil];
+    CMTime audioDuration = audioAsset.duration;
+    float audioDurationSeconds = CMTimeGetSeconds(audioDuration);
+    int totalTimeTmp = ceil(audioDurationSeconds);
+    int hour = totalTimeTmp / 3600;
+    int min = (totalTimeTmp % 3600) / 60;
+    int sec = ((totalTimeTmp % 3600) % 60) % 60;
+    
+    self.totalTimeStr = [NSString stringWithFormat:@"%02d:%02d:%02d", hour, min, sec];
+    [self addProgressObserver];
+    [self addNotification];
 }
 
 - (void)initPlayer
@@ -67,17 +81,22 @@ static const CGFloat btnMargin = 20.f;
     UIButton* pauseBtn = [[UIButton alloc] init];
     [self.view addSubview:pauseBtn];
     _pauseBtn = pauseBtn;
+    [_pauseBtn addTarget:self action:@selector(pauseVideoTarget:) forControlEvents:UIControlEventTouchUpInside];
     pauseBtn.backgroundColor = [UIColor grayColor];
     
     UIProgressView* progressView = [[UIProgressView alloc] init];
     [self.view addSubview:progressView];
     _progressView = progressView;
-    _progressView.backgroundColor = [UIColor greenColor];
+    _progressView.backgroundColor = [UIColor whiteColor];
+    _progressView.trackTintColor = [UIColor colorWithRed:192.f / 255  green: 192.f / 255 blue:192.f / 255 alpha:0.7];
+    _progressView.tintColor = [UIColor blueColor];
     
     UILabel* timeLabel = [[UILabel alloc] init];
     [self.view addSubview:timeLabel];
     _timeLabel = timeLabel;
-    timeLabel.backgroundColor = [UIColor blackColor];
+    timeLabel.backgroundColor = [UIColor whiteColor];
+    timeLabel.textAlignment = NSTextAlignmentLeft;
+    timeLabel.adjustsFontSizeToFitWidth = YES;
 
     UIButton* startTimeBtn = [UIButton buttonWithType: UIButtonTypeRoundedRect];;
     startTimeBtn.backgroundColor = [UIColor yellowColor];
@@ -108,9 +127,24 @@ static const CGFloat btnMargin = 20.f;
     [self setShowViewsFrame];
 }
 
+- (void)addNotification
+{
+    //给AVPlayerItem添加播放完成通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.player.currentItem];
+}
+
+- (void)removeNotification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)playbackFinished:(id)sender
+{
+    //todo
+}
+
 - (void)setConvertTimePos:(UIButton*)sender
 {
-    
     
 }
 
@@ -118,6 +152,44 @@ static const CGFloat btnMargin = 20.f;
 {
     
 }
+
+- (void)updateTimeLabelText: (NSString*)timeStr
+{
+    self.timeLabel.text = timeStr;
+}
+
+- (void)pauseVideoTarget:(id)sender
+{
+    if(self.player.rate == 0)
+        [self.player play];
+    else if(self.player.rate == 1)
+        [self.player pause];
+}
+
+-(void)addProgressObserver
+{
+    AVPlayerItem *playerItem = self.player.currentItem;
+    UIProgressView *progress = self.progressView;
+    //这里设置每秒执行一次
+    __block VideoPlayerViewController* weakSelf = self;
+    [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1.0, 1.0) queue:dispatch_get_main_queue() usingBlock:^(CMTime time)
+    {
+        float current = CMTimeGetSeconds(time);
+        float total = CMTimeGetSeconds([playerItem duration]);
+        if (current)
+        {
+            int curTimeTmp = ceil(current);
+            int hour = curTimeTmp / 3600;
+            int min = (curTimeTmp % 3600) / 60;
+            int sec = ((curTimeTmp % 3600) % 60) % 60;
+            NSString* timeLabelShowStr = [NSString stringWithFormat:@"%02d:%02d:%02d/%@", hour, min, sec, weakSelf.totalTimeStr];
+            [weakSelf updateTimeLabelText:timeLabelShowStr];
+            
+            [progress setProgress:(current / total) animated:NO];
+        }
+    }];
+}
+
 
 - (void)setShowViewsFrame
 {
@@ -136,17 +208,26 @@ static const CGFloat btnMargin = 20.f;
     CGFloat proYPos = self.videoShowView.frame.origin.y + self.videoShowView.frame.size.height;
     self.pauseBtn.frame = CGRectMake(sideMargin, proYPos, btnHeight, btnHeight);
     
-    self.progressView.frame = CGRectMake(sideMargin + btnHeight, proYPos, self.videoShowView.frame.size.width - btnHeight, btnHeight / 2);
-    self.timeLabel.frame = CGRectMake(sideMargin + btnHeight, proYPos + btnHeight / 2, btnWidth, btnHeight / 2);
+    self.progressView.frame = CGRectMake(sideMargin + btnHeight, proYPos + btnHeight / 4, self.videoShowView.frame.size.width - btnHeight, btnHeight);
+    self.timeLabel.frame = CGRectMake(sideMargin + btnHeight, proYPos + btnHeight / 4 + 2, btnWidth, btnHeight * 3 / 4 - 2); //tine height
 }
 
 
-
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    [self setShowViewsFrame];
+}
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [super willAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self setShowViewsFrame];
+}
+
+- (void)dealloc
+{
+    [self removeNotification];
 }
 
 @end
